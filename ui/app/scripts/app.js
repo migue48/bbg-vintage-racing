@@ -1,0 +1,145 @@
+'use strict';
+
+/**
+ * The application.
+ */
+var app = angular.module('uiApp', [
+  'ngResource',
+  'ngMessages',
+  'ngCookies',
+  'ui.router',
+  'mgcrea.ngStrap',
+  'satellizer',
+  'uiApp.controllers',
+  'uiApp.services',
+  'textAngular',
+  'articlePreview'
+]);
+
+
+
+/**
+ * The run configuration.
+ */
+app.run(function($rootScope) {
+
+  /**
+   * The user data.
+   *
+   * @type {{}}
+   */
+  $rootScope.user = {};
+});
+
+
+
+
+
+/**
+ * The application routing.
+ */
+app.config(function ($urlRouterProvider, $stateProvider, $httpProvider, $authProvider) {
+  $urlRouterProvider.otherwise('/');
+
+  function authenticationFnc($q, $location, $auth) {
+    var deferred = $q.defer();
+
+    if (!$auth.isAuthenticated()) {
+      $location.path('/signIn');
+    } else {
+      deferred.resolve();
+    }
+
+    return deferred.promise;
+  }
+
+  $stateProvider
+    // Admin root page
+    .state('admin',         { url: '/admin',  templateUrl: '/partials/admin/admin.html', resolve: { authenticated: authenticationFnc }})
+
+    // Article admin pages
+    .state('admin-articles',        { url: '/admin/articles', templateUrl: '/partials/admin/articles/index.html', resolve:  { authenticated: authenticationFnc }})
+    .state('admin-articles-edit',   { url: '/admin/articles/update/:id', templateUrl: '/partials/admin/articles/update.html', resolve:  { authenticated: authenticationFnc }})
+    .state('admin-articles-new',    { url: '/admin/articles/create', templateUrl: '/partials/admin/articles/create.html', resolve:  { authenticated: authenticationFnc }})
+    .state('admin-articles-delete', { url: '/admin/articles/delete/:id', template: null, controller: 'ArticleDeleteCtrl', resolve:  { authenticated: authenticationFnc }})
+
+    // News
+    .state('news-index', { url: '/news',     templateUrl: '/partials/articles/index.html'})
+    .state('news-show',  { url: '/news/:id', templateUrl: '/partials/articles/show.html'})
+
+
+    // TODO: Photos admin pages go here
+
+
+    // TODO: Users admin pages go here
+
+
+    // Root page
+    .state('index',             { url:'/',                  templateUrl: '/partials/index.html'})
+    .state('contact',           { url:'/call',              templateUrl: '/partials/contact.html'})
+
+    // About pages
+    .state('about',             { url:'/about',             templateUrl: '/partials/about/about.html' })
+    .state('about/rcp',         { url:'/about/rcp',         templateUrl: '/partials/about/rcp.html'})
+    .state('about/education',   { url:'/about/education',   templateUrl: '/partials/about/education.html'})
+    .state('about/beneficence', { url:'/about/beneficence', templateUrl: '/partials/about/beneficence.html'})
+
+
+    // User login.
+    .state('signUp',  { url: '/signUp',  templateUrl: '/views/signUp.html' })
+    .state('signIn',  { url: '/signIn',  templateUrl: '/views/signIn.html' })
+    .state('signOut', { url: '/signOut', template: null,  controller: 'SignOutCtrl' })
+
+    .state('otherwise', { abstract: true, templateUrl: '404.html'});
+
+  $httpProvider.interceptors.push(function($q, $injector) {
+    return {
+      request: function(request) {
+        // Add auth token for Silhouette if user is authenticated
+        var $auth = $injector.get('$auth');
+        if ($auth.isAuthenticated()) {
+          request.headers['X-Auth-Token'] = $auth.getToken();
+        }
+
+        // Add CSRF token for the Play CSRF filter
+        var cookies = $injector.get('$cookies');
+        var token = cookies.get('PLAY_CSRF_TOKEN');
+        if (token) {
+          // Play looks for a token with the name Csrf-Token
+          // https://www.playframework.com/documentation/2.4.x/ScalaCsrf
+          request.headers['Csrf-Token'] = token;
+        }
+
+        return request;
+      },
+
+      responseError: function(rejection) {
+        if (rejection.status === 401) {
+          $injector.get('$state').go('signIn');
+        }
+        return $q.reject(rejection);
+      }
+    };
+  });
+
+  // Auth config
+  $authProvider.httpInterceptor = true; // Add Authorization header to HTTP request
+  $authProvider.loginOnSignup = true;
+  $authProvider.loginRedirect = '/admin';
+  $authProvider.logoutRedirect = '/';
+  $authProvider.signupRedirect = '/admin';
+  $authProvider.loginUrl = '/signIn';
+  $authProvider.signupUrl = '/signUp';
+  $authProvider.loginRoute = '/signIn';
+  $authProvider.signupRoute = '/signUp';
+  $authProvider.tokenName = 'token';
+  $authProvider.tokenPrefix = 'bbg-vintage-satellizer'; // Local Storage name prefix
+  $authProvider.authHeader = 'X-Auth-Token';
+  $authProvider.platform = 'browser';
+  $authProvider.storage = 'localStorage';
+});
+
+// Modules
+this.controllersModule = angular.module('uiApp.controllers', []);
+this.servicesModule = angular.module('uiApp.services', []);
+

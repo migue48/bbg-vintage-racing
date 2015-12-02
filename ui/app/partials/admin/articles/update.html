@@ -1,0 +1,45 @@
+<div ng-controller="UpdateArticleCtrl as uac">
+    <h1>Update Article</h1>
+
+    <form id="UpdateArticleForm" name="UpdateArticleForm" class="form-horizontal" role="form"
+          ng-submit="uac.updateArticle()">
+        <legend class="sm-col-12">Article Information</legend>
+
+        <div class="form-group">
+            <label id="lbl_title" for="title" class="col-sm-1 control-label">Title</label>
+
+            <div class="col-sm-11">
+                <input type="text" class="form-control" name="title" id="title" placeholder=""
+                       ng-model="uac.article.title">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label id="lbl_text" for="text" class="col-sm-1 control-label">Text</label>
+
+            <div class="col-sm-11">
+                <text-angular ng-model="uac.article.content"></text-angular>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label id="lbl_active" for="active" class="col-sm-1 control-label"
+                   is-required="UpdateArticleForm.active">Active</label>
+
+            <div class="col-sm-11">
+                <input type="text" class="form-control" name="active" id="active"
+                       ng-model="uac.article.active">
+            </div>
+        </div>
+
+        <pre>{{ uac.article | json }}</pre>
+
+        <div class="form-group">
+            <div class="col-sm-offset-4 col-sm-8 text-right">
+                <a ui-sref="admin-articles" id="btn_cancel" class="btn btn-warning">Cancel</a>
+
+                <button type="submit" class="btn btn-success" id="btn_create">Update Article</button>
+            </div>
+        </div>
+    </form>
+</div>

@@ -1,0 +1,9 @@
+<div ng-controller="ArticleCtrl as ac">
+  <div ng-repeat="article in ac.articles" class="col-sm-6">
+    <h1 class="bbg_red bbg_fnt_md">{{article.title}}</h1>
+    <img ng-src="{{scope.previmg}}" class="img-responsive">
+    <div class="bbg_fnt_aga" ng-bind-html="article.content"></div>
+    <hr>
+    <a ng-href="/#/news/{{article.id}}" class="bbg_red bbg_fnt_md pull-right">Read More <i class="fa fa-plus"></i></a>
+  </div>
+</div>

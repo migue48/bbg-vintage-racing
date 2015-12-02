@@ -1,0 +1,27 @@
+# Routes
+# This file defines all application routes (Higher priority routes first)
+# ~~~~
+
+GET         /                                com.tuplejump.playYeoman.Yeoman.index
+
+GET         /user                            controllers.ApplicationController.user
+GET         /signOut                         controllers.ApplicationController.signOut
+POST        /signIn                          controllers.CredentialsAuthController.authenticate
+POST        /signUp                          controllers.SignUpController.signUp
+GET         /authenticate/:provider          controllers.SocialAuthController.authenticate(provider)
+POST        /authenticate/:provider          controllers.SocialAuthController.authenticate(provider)
+
+# Article management API
+GET     /api/articles                  controllers.NewsController.findAll
+POST    /api/article                   controllers.NewsController.create
+PUT     /api/article/:id               controllers.NewsController.update(id: java.util.UUID)
+DELETE  /api/article/delete/:id        controllers.NewsController.delete(id: java.util.UUID)
+GET     /api/article/:id               controllers.NewsController.show(id: java.util.UUID)
+
+# Dynamic part of the url
+GET         /views/$template<.+>.html        controllers.ApplicationController.view(template)
+
+# Map static resources from the /public folder to the /assets URL path
+GET         /assets/*file                    controllers.Assets.at(path="/public", file)
+
+->          /                                yeoman.Routes

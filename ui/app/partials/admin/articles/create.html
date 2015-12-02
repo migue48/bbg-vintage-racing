@@ -1,0 +1,37 @@
+<div class="row" ng-controller="CreateArticleCtrl as cac">
+    <h1>Create Article</h1>
+
+    <form id="CreateArticleForm" name="CreateArticleForm" class="form-horizontal" role="form"
+          ng-submit="cac.createArticle()">
+        <legend class="sm-col-12">Article Contents</legend>
+
+        <div class="form-group">
+            <label id="lbl_title" for="title" class="col-sm-1 control-label">Title</label>
+
+            <div class="col-sm-11">
+                <input type="text" class="form-control" name="title" id="title" placeholder=""
+                       ng-model="cac.article.title">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label id="lbl_text" class="col-sm-1 control-label">Text</label>
+
+            <div class="col-sm-11">
+                <text-angular ng-model="cac.article.content"></text-angular>
+            </div>
+        </div>
+
+
+
+        <pre>{{ cac.article | json }}</pre>
+
+        <div class="form-group">
+            <div class="col-sm-offset-4 col-sm-8 text-right">
+                <a ui-sref="admin-articles" id="btn_cancel" class="btn btn-warning">Cancel</a>
+
+                <button type="submit" class="btn btn-success" id="btn_create">Create Article</button>
+            </div>
+        </div>
+    </form>
+</div>
