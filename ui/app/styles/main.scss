@@ -2,11 +2,10 @@
 @import "../bower_components/bootstrap-sass-official/assets/stylesheets/bootstrap-compass";
 @import "../bower_components/bootstrap-sass-official/assets/stylesheets/bootstrap";
 @import "../bower_components/angular/angular-csp.css";
-@icon-font-path: "../fonts";
-
-/* The angular CSP import is required because of the current settings in play.filters.headers.contentSecurityPolicy */
 
 /*
+  The angular CSP import is required because of the current settings in play.filters.headers.contentSecurityPolicy
+
     Colors:
 
     Blue: #113C64
@@ -14,22 +13,22 @@
 
 */
 
-/* TODO: Need to add IE9 compat mode */
-@font-face {
-    font-family: 'bbg_chocolats';
-    src: url('chocolats.ttf');
-}
 
-/* TODO: Need to add IE9 compat mode */
 @font-face {
     font-family: 'mouse_deco';
-    src: url('mousedeco.ttf');
+    src: url('/styles/fonts/mousedeco.ttf');
 }
 
 /* TODO: Need to add IE9 compat mode */
 @font-face {
     font-family: 'agaramond';
-    src: url('agaramondpro-regular.otf');
+    src: url('/styles/fonts/agaramondpro-regular.otf');
+}
+
+/* TODO: Need to add IE9 compat mode */
+@font-face {
+    font-family: 'bbg_chocolats';
+    src: url('/styles/fonts/chocolats.ttf');
 }
 
 

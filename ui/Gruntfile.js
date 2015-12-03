@@ -184,15 +184,15 @@ module.exports = function (grunt) {
       }
     },
 
-    // Renames files for browser caching purposes
+    // Renames files for browser caching purposes, disabled the following.
+    // '<%= yeoman.dist %>/images/{,**/}*.{png,jpg,jpeg,gif,webp,svg}',
+    // '<%= yeoman.dist %>/styles/fonts/*'
     rev: {
       dist: {
         files: {
           src: [
             '<%= yeoman.dist %>/scripts/{,*/}*.js',
             '<%= yeoman.dist %>/styles/{,*/}*.css',
-            '<%= yeoman.dist %>/images/{,*/}*.{png,jpg,jpeg,gif,webp,svg}',
-            '<%= yeoman.dist %>/styles/fonts/*'
           ]
         }
       }
@@ -238,7 +238,7 @@ module.exports = function (grunt) {
         files: [{
           expand: true,
           cwd: '<%= yeoman.app %>/images',
-          src: '{,*/}*.{png,jpg,jpeg,gif}',
+          src: '{,**/}*.{png,jpg,jpeg,gif}',
           dest: '<%= yeoman.dist %>/images'
         }]
       }
@@ -266,7 +266,7 @@ module.exports = function (grunt) {
         files: [{
           expand: true,
           cwd: '<%= yeoman.dist %>',
-          src: ['*.html', 'views/{,*/}*.html'],
+          src: ['*.html', 'partials/{,**/}*.html'],
           dest: '<%= yeoman.dist %>'
         }]
       }
@@ -305,12 +305,12 @@ module.exports = function (grunt) {
             '*.{ico,png,txt}',
             '.htaccess',
             '*.html',
-            'views/{,*/}*.html',
-            'images/{,*/}*.{webp}',
+            'partials/{,**/}*.html',
+            'images/{,**/}*.{webp}',
             'fonts/*',
             'lib/*',
-            'styles/fonts/{,*/}*.*', // <% if (compassBootstrap) { %>
-            'bower_components/sass-bootstrap/fonts/*.*' // <% } %>
+            'styles/fonts/{,*/}*.*',
+            'bower_components/sass-bootstrap/fonts/*.*'
           ]
         }, {
           expand: true,
