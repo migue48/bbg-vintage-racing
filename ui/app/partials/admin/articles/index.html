@@ -19,7 +19,7 @@
             <thead>
             <tr>
                 <th>Title</th>
-                <th>Creation Time</th>
+                <th>Update Time</th>
             </tr>
             </thead>
             <tbody>
@@ -28,7 +28,7 @@
                     {{ article.title }}
                 </td>
                 <td>
-                    {{ article.creationDate }}
+                    {{ article.updateDate | date: 'short'}}
                 </td>
                 <td>
                     <a ng-href="/#/admin/articles/update/{{article.id}}" class="btn btn-success pull-right" id="btn_article_update">Edit</a>
