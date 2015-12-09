@@ -1,6 +1,6 @@
 <div ng-controller="ArticleCtrl as ac">
-  <div ng-repeat="article in ac.articles" class="col-sm-6">
-    <h1 class="bbg_red bbg_fnt_md">{{article.title}}</h1>
+  <div ng-repeat="article in ac.articles" class="col-sm-6 bbg-article-preview">
+    <h1 class="bbg_red bbg_fnt_md text-center">{{article.title}}</h1>
     <img ng-src="{{scope.previmg}}" class="img-responsive">
     <div class="bbg_fnt_aga" ng-bind-html="article.content"></div>
     <hr>

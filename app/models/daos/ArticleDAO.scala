@@ -4,6 +4,7 @@ import java.util.UUID
 import javax.inject.Inject
 
 import models.Article
+import org.joda.time.DateTime
 import play.api.libs.json.Json
 import scala.concurrent.ExecutionContext.Implicits.global
 import play.modules.reactivemongo.json.collection.JSONCollection
@@ -25,7 +26,7 @@ class ArticleDAO  @Inject() (db : DB)  {
     * Finds a article by its article ID.
     *
     * @param articleId The ID of the article to find.
-    * @return The found article or None if no user for the given ID could be found.
+    * @return The found article or None if no article for the given ID could be found.
     */
   def find(articleId: UUID) : Future[Option[Article]] = {
     collection.find(Json.obj("id" -> articleId)).one[Article]
@@ -50,10 +51,14 @@ class ArticleDAO  @Inject() (db : DB)  {
     * @return The saved article.
     */
   def save(article: Article) : Future[Option[Article]] = {
-    collection.update(Json.obj("id" -> article.id),
-      article,
+    val updatedArticle = article.copy(
+      creationDate = article.creationDate.orElse(Some(DateTime.now)),
+      updateDate = Some(DateTime.now)
+    )
+    collection.update(Json.obj("id" -> updatedArticle.id),
+      updatedArticle,
       upsert = true)
-    Future.successful(Some(article))
+    Future.successful(Some(updatedArticle))
   }
 
 
