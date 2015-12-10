@@ -31,10 +31,18 @@
     src: url('/styles/fonts/chocolats.ttf');
 }
 
+.bbg_fnt_garamond {
+  font-family: 'EB Garamond', serif;
+  font-weight: 500;
+}
 
 .bbg_fnt_ch {
     font-family: 'bbg_chocolats';
     color: #113C64;
+}
+
+.bbg_large_fnt {
+  font-size:60px;
 }
 
 .bbg_fnt_md {
@@ -43,12 +51,12 @@
 }
 
 .bbg_fnt_aga {
-    font-family: 'agaramond';
-    font-size: 15px;
+    /*font-family: 'agaramond';*/
+    font-family: 'EB Garamond', serif;
+    font-size:16px;
     font-weight: 700;
     color: #113C64;
 }
-
 
 .bbg_blue {
     color: #113C64 !important;
@@ -67,6 +75,44 @@
   color: white !important;
   h1 h3 a{
     color: white !important;
+  }
+}
+
+.bbg_calendar {
+  font-family: 'mouse_deco';
+  color: #113C64;
+
+  h1 {
+    font-size:65px;
+  }
+
+  h4 {
+    font-size:30px;
+  }
+
+  p {
+    font-family: 'EB Garamond', serif;
+    font-size:20px;
+  }
+
+  i {
+    color: #CD1723;
+  }
+}
+
+.bbg_calendar_list {
+  background-color: #113C64;
+  color: white;
+  font-family: 'mouse_deco';
+  padding-bottom: 5px;
+  margin-bottom: 5px;
+
+  .panel-body {
+    padding: 5px;
+  }
+
+  h3 small {
+    color: white;
   }
 }
 
@@ -105,6 +151,14 @@
     border-top: 5px solid #CD1723;
 }
 
+.bbg-article-preview {
+  padding-bottom:5px;
+}
+
+.bbg-img-center {
+  margin-left:auto;
+  margin-right:auto;
+}
 
 /* NAV-BAR */
 .navbar-brand>img {
@@ -125,7 +179,7 @@
 
 body {
     padding-bottom: 30px;
-    margin-top: 120px;
+    margin-top: 60px;
 }
 
 footer {

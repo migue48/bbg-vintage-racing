@@ -1,0 +1,45 @@
+<div ng-controller="EventCtrl as cc">
+  <div class="col-md-8 row bbg_blue bbg_calendar">
+    <div class="col-lg-5">
+      <div class="row">
+        <div class="col-md-12">
+          <h1>{{cc.cur.dateRange}<small class="bbg_blue">{{cc.cur.month}}</small></h1>
+          <h4 class="bbg_red">{{cc.cur.title}}</h4>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-7">
+      <div class="col-sm-12">
+        <img class="img-responsive" ng-src="{{cc.cur.image}}" />
+        <div ng-if="{{cc.cur.displayImgSource}}">
+          <a href="{{cc.cur.sourceUrl}}" target="_blank"><small class="text-center">Source: {{cc.cur.sourceUrl}}</small></a>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-12 bbg_fnt_garamond">
+      <p>{{cc.cur.description}}</p>
+    </div>
+  </div>
+
+  <div class="col-md-4">
+    <h4 class="bbg_fnt_md text-center">LIST OF EVENTS</h4>
+    <hr/>
+
+    <div ng-repeat="event in cc.events">
+      <div class="panel panel-default bbg_calendar_list">
+        <div class="panel-body">
+          <div class="col-xs-7">
+            <h4>{{event.title}}</h4>
+            <h5>{{event.city}}</h5>
+          </div>
+          <div class="col-xs-5">
+            <h3>{{event.dateRange}}<small>{{event.month}}</small></h3>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+

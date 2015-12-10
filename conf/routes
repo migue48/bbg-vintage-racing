@@ -18,6 +18,13 @@ PUT     /api/articles/:id               controllers.NewsController.update(id: ja
 DELETE  /api/articles/delete/:id        controllers.NewsController.delete(id: java.util.UUID)
 GET     /api/articles/:id               controllers.NewsController.show(id: java.util.UUID)
 
+# Event management API
+GET     /api/events                   controllers.EventsController.findAll
+POST    /api/events                   controllers.EventsController.create
+PUT     /api/events/:id               controllers.EventsController.update(id: java.util.UUID)
+DELETE  /api/events/delete/:id        controllers.EventsController.delete(id: java.util.UUID)
+GET     /api/events/:id               controllers.EventsController.show(id: java.util.UUID)
+
 # Dynamic part of the url
 GET         /views/$template<.+>.html        controllers.ApplicationController.view(template)
 

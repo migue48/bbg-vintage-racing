@@ -23,11 +23,14 @@ case class Article (id: UUID,
                     content: Option[String],
                     creationDate: Option[DateTime],
                     updateDate: Option[DateTime],
-                    active: Boolean)
+                    active: Boolean) {
+}
 
 object Article {
   /**
     * Converts the [Article] object to Json and vice versa.
     */
   implicit val jsonFormat = Json.format[Article]
+
+  val collectionName = "article"
 }
