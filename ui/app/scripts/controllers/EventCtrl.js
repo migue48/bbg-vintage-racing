@@ -158,3 +158,46 @@ var EventCtrl =  (function() {
 })();
 controllersModule.controller('EventCtrl', ['$log', 'EventService', EventCtrl]);
 
+var CalendarCtrl = (function(){
+  function CalendarCtrl($log, EventService) {
+    this.$log = $log;
+    this.Service = EventService;
+    this.cur = {};
+    this.events = [];
+    this.list();
+  }
+
+  CalendarCtrl.prototype.list = function() {
+      return this.Service.list().then((function(_this) {
+        return function(data) {
+           _this.events = data;
+           _this.events.map(function (event) {
+             event.dateRange = _this.CalcDateRange(event);
+           });
+           if (_this.events.length > 0) {
+             _this.cur = _this.events[0];
+          }
+        };
+      })(this), (function(_this) {
+        return function(error) {
+          return _this.$log.error("Unable to get list of events: " + error);
+        };
+      })(this));
+  };
+
+  CalendarCtrl.prototype.CalcDateRange = function(event) {
+    var startDate = new Date(event.startDate);
+    var endDate = new Date(event.endDate);
+    console.log(endDate);
+    var result = startDate.getDate().toString();
+    if (startDate.getMonth() == endDate.getMonth() &&
+        startDate.getYear()  == endDate.getYear()) {
+      result += '-' + endDate.getDate().toString();
+    }
+    return result;
+  };
+
+  return CalendarCtrl;
+})();
+controllersModule.controller('CalendarCtrl', ['$log', 'EventService', CalendarCtrl]);
+

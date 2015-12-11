@@ -68,7 +68,7 @@ class EventsController @Inject()(val messagesApi: MessagesApi,
         case None =>
           Future.successful(BadRequest(s"Event does not exist in database"))
       }
-    }.getOrElse(Future.successful(BadRequest(s"Invalid json")))
+    }.recoverTotal( error => Future.successful(BadRequest(JsError.toJson(error))))
   }
 
   def delete(id: UUID) = SecuredAction.async {
