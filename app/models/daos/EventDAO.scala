@@ -38,7 +38,7 @@ class EventDAO @Inject() (db : DB)  {
   def findAll() : Future[List[Event]] = {
     val cursor: Cursor[Event] = collection
       .find(Json.obj("active" -> true))
-      .sort(Json.obj("created" -> -1))
+      .sort(Json.obj("startDate" -> 1))
       .cursor[Event]()
     cursor.collect[List]()
   }

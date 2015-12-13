@@ -116,6 +116,27 @@
   }
 }
 
+.bbg_calendar_list_sel {
+  background-color: #CD1723;
+  color: white;
+  font-family: 'mouse_deco';
+  padding-bottom: 5px;
+  margin-bottom: 5px;
+
+  .panel-body {
+    padding: 5px;
+  }
+
+  h3 small {
+    color: white;
+  }
+}
+
+.bbg_calendar_list_container {
+  max-height: 400px;
+  overflow: scroll;
+}
+
 .bbg-pull-bottom {
   position: relative;
   bottom: 0px !important;

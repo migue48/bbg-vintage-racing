@@ -25,7 +25,7 @@ object EventForm {
       "address" -> text,
       "city" -> text,
       "image" -> text,
-      "imageSrc" -> text,
+      "imageSource" -> text,
       "active" -> boolean
     )(Data.apply)(Data.unapply)
   )
@@ -41,7 +41,7 @@ object EventForm {
     * @param address Event's address.
     * @param city Event's city.
     * @param image Image URL.
-    * @param imageSrc Image source URL.
+    * @param imageSource Image source URL.
     * @param active Display flag (true/false).
     */
   case class Data( title: String,
@@ -53,7 +53,7 @@ object EventForm {
                    address: String,
                    city: String,
                    image: String,
-                   imageSrc: String,
+                   imageSource: String,
                    active: Boolean)
 
   /**

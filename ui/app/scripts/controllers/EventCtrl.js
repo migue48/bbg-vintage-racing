@@ -11,7 +11,7 @@ var UpdateEventCtrl = (function() {
     this.list();
   }
 
-  UpdateEventCtrl.prototype.updateArticle = function() {
+  UpdateEventCtrl.prototype.update = function() {
     this._obj.active = true;
     return this.Service.update(this.$stateParams.id, this._obj).then((function(_this) {
       return function(data) {
@@ -27,11 +27,11 @@ var UpdateEventCtrl = (function() {
   UpdateEventCtrl.prototype.list = function() {
     var id;
     id = this.$stateParams.id;
-    // Update this to use backend find article API
+
     return this.Service.list().then((function(_this) {
       return function(data) {
         _this.$log.debug(data);
-        _this.article = (data.filter(function(obj) {
+        _this._obj = (data.filter(function(obj) {
           return obj.id === id;
         }))[0];
         return _this.$log.debug(_this._obj);
@@ -159,11 +159,14 @@ var EventCtrl =  (function() {
 controllersModule.controller('EventCtrl', ['$log', 'EventService', EventCtrl]);
 
 var CalendarCtrl = (function(){
-  function CalendarCtrl($log, EventService) {
+  function CalendarCtrl($rootScope, $log,  $location, $anchorScroll, EventService) {
     this.$log = $log;
+    this.$anchorScroll = $anchorScroll;
+    this.$location = $location;
     this.Service = EventService;
     this.cur = {};
     this.events = [];
+    this.index = 0;
     this.list();
   }
 
@@ -175,7 +178,7 @@ var CalendarCtrl = (function(){
              event.dateRange = _this.CalcDateRange(event);
            });
            if (_this.events.length > 0) {
-             _this.cur = _this.events[0];
+             _this.cur = _this.events[_this.index];
           }
         };
       })(this), (function(_this) {
@@ -188,16 +191,45 @@ var CalendarCtrl = (function(){
   CalendarCtrl.prototype.CalcDateRange = function(event) {
     var startDate = new Date(event.startDate);
     var endDate = new Date(event.endDate);
-    console.log(endDate);
+
     var result = startDate.getDate().toString();
     if (startDate.getMonth() == endDate.getMonth() &&
-        startDate.getYear()  == endDate.getYear()) {
+        startDate.getYear()  == endDate.getYear()  &&
+        startDate.getDate()  != endDate.getDate()) {
       result += '-' + endDate.getDate().toString();
     }
     return result;
   };
 
+  // Select action, updates cur variable and updates events scroll
+  CalendarCtrl.prototype.SelectEvent = function(index) {
+    this.index = index;
+    this.cur = this.events[this.index];
+
+    // Update the scroll so that the first event is the one on display.
+    this.$location.hash('event'+index);
+    this.$anchorScroll();
+
+    // Reset view to show the event starting from the top.
+    this.$location.hash('');
+    this.$anchorScroll();
+  };
+
+  CalendarCtrl.prototype.Down = function() {
+    if (this.index < this.events.length - 1) {
+      return this.SelectEvent(this.index + 1);
+    }
+  }
+
+  CalendarCtrl.prototype.Up = function() {
+    if (this.index > 0 && this.events.length > 0) {
+      return this.SelectEvent(this.index - 1)
+    }
+  }
+
+  // Find init date function to initialize cur module after getting list of events
+
   return CalendarCtrl;
 })();
-controllersModule.controller('CalendarCtrl', ['$log', 'EventService', CalendarCtrl]);
+controllersModule.controller('CalendarCtrl', ['$rootScope', '$log', '$location', '$anchorScroll', 'EventService', CalendarCtrl]);
 

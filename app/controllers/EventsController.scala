@@ -39,7 +39,7 @@ class EventsController @Inject()(val messagesApi: MessagesApi,
         endDate = Some(data.endDate),
         language = data.language,
         image = data.image,
-        imageSource = Some(data.imageSrc),
+        imageSource = Some(data.imageSource),
         active = data.active
       )
       eventDAO.save(event)
@@ -60,7 +60,7 @@ class EventsController @Inject()(val messagesApi: MessagesApi,
             endDate = Some(data.endDate),
             language = data.language,
             image = data.image,
-            imageSource = Some(data.imageSrc),
+            imageSource = Some(data.imageSource),
             active = data.active
           )
           eventDAO.save(updatedEvent)
