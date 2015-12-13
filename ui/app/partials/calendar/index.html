@@ -1,0 +1,53 @@
+<div ng-controller="CalendarCtrl as cc" id="bbg-event-display">
+  <div class="col-md-8 row bbg_blue bbg_calendar">
+    <div class="col-lg-5">
+      <div class="row">
+        <div class="col-md-12">
+          <h1>{{cc.cur.dateRange}}<small class="bbg_blue">{{cc.cur.startDate | date: 'MMM' | uppercase}}</small></h1>
+          <h4 class="bbg_red">{{cc.cur.title}}</h4>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-7">
+      <div class="col-sm-12">
+        <img class="img-responsive" ng-src="{{cc.cur.image}}" />
+        <div ng-if="cc.cur.imageSource">
+          <a href="{{cc.cur.imageSource}}" target="_blank"><small class="text-center">Source: {{cc.cur.imageSource}}</small></a>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-12 bbg_fnt_garamond">
+      <div ng-bind-html="cc.cur.description"></div>
+    </div>
+    <div class="col-md-12">
+      <hr>
+      <a class="bbg_red" ng-click="cc.Up()" ng-if="cc.index > 0">Previous</a>
+      <a class="bbg_red pull-right" ng-click="cc.Down()" ng-if="cc.index < cc.events.length - 1">Next</a>
+    </div>
+  </div>
+
+  <div class="col-md-4">
+    <h4 class="bbg_fnt_md text-center">LIST OF EVENTS</h4>
+    <hr/>
+    <div class="bbg_calendar_list_container">
+      <div ng-repeat="event in cc.events track by event.id " ng-click="cc.SelectEvent($index)" id="event{{$index}}">
+        <div class="panel panel-default bbg_calendar_list" ng-class="{'bbg_calendar_list_sel': cc.cur.id == event.id}" >
+          <div class="panel-body">
+            <div class="col-xs-7">
+              <h4>{{event.title}}</h4>
+              <h5>{{event.city}}</h5>
+            </div>
+            <div class="col-xs-5">
+              <h3>{{event.dateRange}}<small>{{event.startDate | date: 'MMM' | uppercase}}</small></h3>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div>
+      <h1 class="text-center"><a class="bbg_red" ng-click="cc.Down()"><i class="fa fa-angle-down"></i>  </a><a class="bbg_red" ng-click="cc.Up()">  <i class="fa fa-angle-up"></i></a></h1>
+    </div>
+  </div>
+</div>
+
+

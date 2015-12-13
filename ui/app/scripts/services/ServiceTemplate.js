@@ -20,7 +20,6 @@ function ServiceTemplate(nameUrl) {
 
   Service.prototype.list = function() {
     var deferred;
-    this.$log.debug('list()');
     deferred = this.$q.defer();
     this.$http.get(nameUrl).success((function(_this) {
       return function(data, status, headers) {
@@ -52,7 +51,6 @@ function ServiceTemplate(nameUrl) {
 
   Service.prototype.create = function(_obj) {
     var deferred;
-    this.$log.debug('create ' + (angular.toJson(_obj, true)));
     deferred = this.$q.defer();
     this.$http.post(nameUrl, _obj).success((function(_this) {
       return function(data, status, headers) {
@@ -80,7 +78,6 @@ function ServiceTemplate(nameUrl) {
 
   Service.prototype.update = function(id, _obj) {
     var deferred;
-    this.$log.debug('update ' + (angular.toJson(_obj, true)));
     deferred = this.$q.defer();
     this.$http.put(nameUrl + '/' + id, _obj).success((function(_this) {
       return function(data, status, headers) {

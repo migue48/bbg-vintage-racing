@@ -19,9 +19,7 @@ import scala.concurrent.Future
 
 
 /**
-  * The news controller.
-  *
-  *
+  * The news controller. This controller implements the CRUD functionality for the article model.
   */
 class NewsController @Inject()(val messagesApi: MessagesApi,
                                val env: Environment[User, JWTAuthenticator],

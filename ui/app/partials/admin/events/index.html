@@ -1,0 +1,64 @@
+<div ng-controller="EventCtrl as c">
+  <div>
+    <div class="form-group">
+      <div><a ui-sref="admin" class="bbg_red"><h4><li class="fa fa-arrow-circle-o-left fa-2x" /> Back to Admin </h4></a></div>
+      <h2 class="bbg_blue">
+        <i class="fa fa-car"></i>
+        Events
+        <a ui-sref="admin-events-new" class="btn btn-primary pull-right" id="btn_event_create">Add Event</a>
+      </h2>
+      <hr>
+    </div>
+    <div class="form-group">
+      <input class="form-control" type="text" ng-model="searchText" placeholder="Type here to filter Events...">
+      <hr>
+    </div>
+
+    <table id="event_list" class="table table-striped">
+      <thead>
+      <tr>
+        <th>Title</th>
+        <th>Update Time</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr ng-repeat="event in c._objs | filter:searchText">
+        <td>
+          {{ event.title }}
+        </td>
+        <td>
+          {{ event.updateDate | date: 'short'}}
+        </td>
+        <td>
+          <a ng-href="/#/admin/events/update/{{event.id}}" class="btn btn-success pull-right" id="btn_article_update">Edit</a>
+          <a ng-href="/#/admin/events/delete/{{event.id}}" class="btn btn-danger pull-right" id="btn_article_delete">Delete</a>
+        </td>
+      </tr>
+      <tr ng-hide="c._objs.length">
+        <td colspan="3">
+          <p class="text-center">No Events Found</p>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+
+    <div class="row">
+      <div class="panel-group" role="tablist" aria-multiselectable="true" bs-collapse>
+        <div class="panel panel-default" >
+          <div class="panel-heading" role="tab">
+            <h4 class="panel-title">
+              <a bs-collapse-toggle>
+                Debug JSON Data
+              </a>
+            </h4>
+          </div>
+          <div class="panel-collapse" role="tabpanel" bs-collapse-target>
+            <div class="panel-body">
+              <pre>{{ c._objs | json }}</pre>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,100 @@
+<div class="row" ng-controller="CreateEventCtrl as c">
+  <form id="CreateArticleForm" name="CreateArticleForm" class="form-horizontal" role="form"
+        ng-submit="c.create()">
+    <div class="panel panel-info">
+      <div class="panel-heading">
+        <h3 class="panel-title">Event</h3>
+      </div>
+      <div class="panel-body">
+        <div class="col-sm-12">
+          <div class="form-group col-sm-12">
+            <label id="lbl_title" for="title" class="control-label">Title</label>
+            <input type="text" class="form-control" name="title" id="title" placeholder="Event Title" ng-model="c._obj.title">
+          </div>
+          <div class="form-group col-sm-6">
+            <label id="lbl_text" class="control-label"><i class="fa fa-file-text"></i> Description</label>
+            <text-angular ng-model="c._obj.description" placeholder="Enter event description here."></text-angular>
+          </div>
+
+          <div class="col-sm-6">
+            <div class="col-sm-12">
+              <div class="form-group">
+                  <label class="control-label"><i class="fa fa-map-marker"></i> Address</label>
+                  <input type="text" class="form-control" name="address" id="address" placeholder="Address" ng-model="c._obj.address">
+              </div>
+            </div>
+
+            <div class="col-sm-6">
+              <div class="form-group">
+                <label class="control-label">City</label>
+                <input type="text" class="form-control" name="city" id="city" placeholder="City" ng-model="c._obj.city">
+              </div>
+            </div>
+
+            <div class="col-sm-6">
+              <div class="form-group">
+                <label class="control-label">Country</label>
+                <input type="text" class="form-control" name="country" id="country" placeholder="Country" ng-model="c._obj.country">
+              </div>
+            </div>
+
+            <div class="col-sm-6">
+              <div class="form-group">
+                <label class="control-label"><i class="fa fa-calendar"></i>  Start</label>
+                <input type="text" class="form-control" ng-model="c._obj.startDate" data-max-date="{{c._obj.endDate}}" placeholder="Start Date" data-date-type="number" bs-datepicker>
+              </div>
+            </div>
+            <div class="col-sm-6">
+              <div class="form-group">
+                <label class="control-label"><i class="fa fa-calendar"></i>  End</label>
+                <input type="text" class="form-control" ng-model="c._obj.endDate" data-min-date="{{c._obj.startDate}}" placeholder="End Date" data-date-type="number" bs-datepicker>
+              </div>
+            </div>
+
+            <!-- Image -->
+            <div class="col-sm-12">
+              <div class="form-group">
+                <label class="control-label"><i class="fa fa-picture-o"></i> Image Url</label>
+                <input type="text" class="form-control" name="image-url" id="image-url" placeholder="http://" ng-model="c._obj.image">
+              </div>
+            </div>
+            <!-- ImageSource -->
+            <div class="col-sm-12">
+              <div class="form-group">
+                <label class="control-label"><i class="fa fa-link"></i> Image Source</label>
+                <input type="text" class="form-control" name="image-src-url" id="image-src-url" placeholder="http://" ng-model="c._obj.imageSource">
+              </div>
+            </div>
+            <!-- Events Page, Calendar Page -->
+            <div class="col-sm-6">
+              <div class="checkbox">
+                <label>
+                  <input type="checkbox" ng-model="c._obj.eventEn"> Display in Events page.
+                </label>
+              </div>
+            </div>
+            <div class="col-sm-6">
+              <div class="checkbox">
+                <label>
+                  <input type="checkbox" ng-model="c._obj.calendarEn"> Display in Calendar page.
+                </label>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-sm-12">
+            <pre>{{ c._obj | json }}</pre>
+          </div>
+          <div class="form-group">
+            <div class="col-sm-offset-4 col-sm-8 text-right">
+              <a ui-sref="admin-events" id="btn_cancel" class="btn btn-warning">Cancel</a>
+
+              <button type="submit" class="btn btn-success" id="btn_create">Create Event</button>
+            </div>
+          </div>
+        </div>
+      </div> <!- panel body -->
+    </div>  <!-- panel -->
+
+  </form>
+</div>
