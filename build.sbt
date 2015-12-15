@@ -2,9 +2,9 @@ import com.tuplejump.sbt.yeoman.Yeoman
 
 import scalariform.formatter.preferences._
 
-name := """play-silhouette-angular-seed"""
+name := """bbg-vintage-racing"""
 
-version := "3.0.0"
+version := "0.0.1"
 
 scalaVersion := "2.11.7"
 
