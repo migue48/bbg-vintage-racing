@@ -1,0 +1,15 @@
+<div class="row" ng-controller="AlbumCtrl as c">
+  <div class="col-sm-12">
+    <h1 class="bbg_fnt_md bbg_red text-center">Concorso D'Eleganza</h1>
+    <h3 class="bbg_fnt_md text-center">2010</h3>
+    <a class="bbg_fnt_md bbg_red" ui-sref="photos-index"><i class="fa fa-arrow-circle-o-left"></i> Other Albums</a>
+    <hr class="bbg-hr-blue" style="margin-bottom:5px;">
+  </div>
+  <div class="col-sm-12 center-block">
+    <div masonry masonry-options="{ gutter: 5, isFitWidth: true }" style="margin: 0 auto;" >
+      <div class="masonry-brick" ng-repeat="brick in c._objs">
+        <img ng-src="{{ brick.src }}" ng-click="c.showModal($index)" alt="A masonry brick" style="max-width:250px;">
+      </div>
+    </div>
+  </div>
+</div>

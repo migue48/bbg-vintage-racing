@@ -22,7 +22,8 @@ var app = angular.module('uiApp', [
   'textAngular',
   'articlePreview',
   'angulartics',
-  'angulartics.google.analytics'
+  'angulartics.google.analytics',
+  'wu.masonry'
 ]);
 
 
@@ -87,6 +88,10 @@ app.config(function ($urlRouterProvider, $stateProvider, $httpProvider, $authPro
 
     // Calendar
     .state('calendar-index', { url: '/calendar', templateUrl: '/partials/calendar/index.html'})
+
+    // Photos
+    .state('photos-index', { url: '/photos', templateUrl: '/partials/photos/index.html'})
+    .state('photos-show',  { url: '/photos/:id', templateUrl: '/partials/photos/show.html'})
 
     // Root page
     .state('index',             { url:'/',                  templateUrl: '/partials/index.html'})
