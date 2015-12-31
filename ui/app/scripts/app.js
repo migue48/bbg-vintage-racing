@@ -79,7 +79,13 @@ app.config(function ($urlRouterProvider, $stateProvider, $httpProvider, $authPro
     .state('admin-events-new',    { url: '/admin/events/create', templateUrl: '/partials/admin/events/create.html', resolve:  { authenticated: authenticationFnc }})
     .state('admin-events-delete', { url: '/admin/events/delete/:id', template: null, controller: 'EventDeleteCtrl', resolve:  { authenticated: authenticationFnc }})
 
-    // TODO: Photos admin pages go here
+    // Album admin pages
+    .state('album-events',        { url: '/admin/albums', templateUrl: '/partials/admin/albums/index.html', resolve:  { authenticated: authenticationFnc }})
+    .state('album-events-edit',   { url: '/admin/albums/update/:id', templateUrl: '/partials/admin/albums/update.html', resolve:  { authenticated: authenticationFnc }})
+    .state('album-events-new',    { url: '/admin/albums/create', templateUrl: '/partials/admin/albums/create.html', resolve:  { authenticated: authenticationFnc }})
+    .state('album-events-delete', { url: '/admin/albums/delete/:id', template: null, controller: 'AlbumDeleteCtrl', resolve:  { authenticated: authenticationFnc }})
+
+
     // TODO: Users admin pages go here
 
     // News
