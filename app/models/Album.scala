@@ -32,6 +32,7 @@ object Image {
   */
 case class Album(id: UUID,
                  userId: UUID,
+                 title: Option[String] = None,
                  description: Option[String],
                  language: String,
                  date: Option[DateTime],

@@ -80,10 +80,10 @@ app.config(function ($urlRouterProvider, $stateProvider, $httpProvider, $authPro
     .state('admin-events-delete', { url: '/admin/events/delete/:id', template: null, controller: 'EventDeleteCtrl', resolve:  { authenticated: authenticationFnc }})
 
     // Album admin pages
-    .state('album-events',        { url: '/admin/albums', templateUrl: '/partials/admin/albums/index.html', resolve:  { authenticated: authenticationFnc }})
-    .state('album-events-edit',   { url: '/admin/albums/update/:id', templateUrl: '/partials/admin/albums/update.html', resolve:  { authenticated: authenticationFnc }})
-    .state('album-events-new',    { url: '/admin/albums/create', templateUrl: '/partials/admin/albums/create.html', resolve:  { authenticated: authenticationFnc }})
-    .state('album-events-delete', { url: '/admin/albums/delete/:id', template: null, controller: 'AlbumDeleteCtrl', resolve:  { authenticated: authenticationFnc }})
+    .state('admin-albums',        { url: '/admin/albums', templateUrl: '/partials/admin/albums/index.html', resolve:  { authenticated: authenticationFnc }})
+    .state('admin-albums-edit',   { url: '/admin/albums/update/:id', templateUrl: '/partials/admin/albums/update.html', resolve:  { authenticated: authenticationFnc }})
+    .state('admin-albums-new',    { url: '/admin/albums/create', templateUrl: '/partials/admin/albums/create.html', resolve:  { authenticated: authenticationFnc }})
+    .state('admin-albums-delete', { url: '/admin/albums/delete/:id', template: null, controller: 'AlbumDeleteCtrl', resolve:  { authenticated: authenticationFnc }})
 
 
     // TODO: Users admin pages go here

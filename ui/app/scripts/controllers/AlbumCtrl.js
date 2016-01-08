@@ -27,24 +27,25 @@ var AlbumModalCtrl =  (function() {
 controllersModule.controller('AlbumModalCtrl', ['images', 'index', AlbumModalCtrl]);
 
 var AlbumCtrl =  (function() {
-  function AlbumCtrl($log, $modal) {
+  function AlbumCtrl($log, $modal, $stateParams, AlbumService) {
     this.$log = $log;
     this.$modal = $modal;
-    this._objs = [];
-    this.list();
+    this.Service = AlbumService;
+    this._obj = {};
+    this.get($stateParams.id);
+
   }
 
-  AlbumCtrl.prototype.list = function() {
-    this._objs = [
-      {'src':'http://bbg-vintage-racing.s3-website-us-east-1.amazonaws.com/images/photos/2010/concorso-d-eleganza/_DSC0001.jpg'},
-      {'src':'http://bbg-vintage-racing.s3-website-us-east-1.amazonaws.com/images/photos/2010/concorso-d-eleganza/_DSC0005.jpg'},
-      {'src':'http://bbg-vintage-racing.s3-website-us-east-1.amazonaws.com/images/photos/2010/concorso-d-eleganza/_DSC0011.jpg'},
-      {'src':'http://bbg-vintage-racing.s3-website-us-east-1.amazonaws.com/images/photos/2010/concorso-d-eleganza/_DSC0026.jpg'},
-      {'src':'http://bbg-vintage-racing.s3-website-us-east-1.amazonaws.com/images/photos/2010/concorso-d-eleganza/_DSC0033.jpg'},
-      {'src':'http://bbg-vintage-racing.s3-website-us-east-1.amazonaws.com/images/photos/2010/concorso-d-eleganza/_DSC0037.jpg'},
-      {'src':'http://bbg-vintage-racing.s3-website-us-east-1.amazonaws.com/images/photos/2010/concorso-d-eleganza/_DSC0040.jpg'},
-      {'src':'http://bbg-vintage-racing.s3-website-us-east-1.amazonaws.com/images/photos/2010/concorso-d-eleganza/_DSC0056.jpg'},
-    ];
+  AlbumCtrl.prototype.get = function(id) {
+    return this.Service.show(id).then((function(_this) {
+      return function(data) {
+        return _this._obj = data.album;
+      };
+    })(this), (function(_this) {
+      return function(error) {
+        return _this.$log.error("Unable to get album: " + error);
+      };
+    })(this));
   };
 
   AlbumCtrl.prototype.showModal = function(index) {
@@ -57,7 +58,7 @@ var AlbumCtrl =  (function() {
         controller:'AlbumModalCtrl',
         controllerAs: 'c',
         locals: {
-            images: this._objs,
+            images: this._obj.images,
             index: index
           }
       });
@@ -65,37 +66,109 @@ var AlbumCtrl =  (function() {
   };
   return AlbumCtrl;
 })();
-controllersModule.controller('AlbumCtrl', ['$log', '$modal', AlbumCtrl]);
+controllersModule.controller('AlbumCtrl', ['$log', '$modal', '$stateParams', 'AlbumService', AlbumCtrl]);
 
 
 
 var AlbumPreviewCtrl =  (function() {
-  function AlbumPreviewCtrl($log) {
+  function AlbumPreviewCtrl($log, AlbumService) {
     this.$log = $log;
+    this.Service = AlbumService;
     this._objs = [];
     this.list();
   }
 
   AlbumPreviewCtrl.prototype.list = function() {
-    this._objs = [
-      {
-        "src":"http://bbg-vintage-racing.s3-website-us-east-1.amazonaws.com/images/photos/2010/concorso-d-eleganza/_DSC0001.jpg",
-        "title": "Concorso d'Eleganza",
-        "count": 8
-      },
-      {
-        "src":"http://bbg-vintage-racing.s3-website-us-east-1.amazonaws.com/images/photos/2010/campo-di-fiori/CAMPO DI FIORI-03.jpg",
-        "title": "Campo Di Fiori",
-        "count": 18
-      },
-      {
-        "src":"http://bbg-vintage-racing.s3-website-us-east-1.amazonaws.com/images/photos/2010/mantova-ix/_DSC0003.jpg",
-        "title": "Mantova IX",
-        "count": 35
-      },
-    ];
+    return this.Service.list().then((function(_this) {
+      return function(data) {
+        return _this._objs = data;
+      };
+    })(this), (function(_this) {
+      return function(error) {
+        return _this.$log.error("Unable to get list of albums: " + error);
+      };
+    })(this));
   };
 
   return AlbumPreviewCtrl;
 })();
-controllersModule.controller('AlbumPreviewCtrl', ['$log', AlbumPreviewCtrl]);
+controllersModule.controller('AlbumPreviewCtrl', ['$log', 'AlbumService', AlbumPreviewCtrl]);
+
+var CreateAlbumCtrl =  (function() {
+  function CreateAlbumCtrl($rootScope, $log, $location, AlbumService) {
+    this.$log = $log;
+    this.$rootScope = $rootScope;
+    this.$location = $location;
+    this.Service = AlbumService;
+    this._obj = {'images': [
+      this.NewImage()
+    ]};
+  }
+
+  CreateAlbumCtrl.prototype.NewImage = function() {
+    return {
+      'id':'',
+      'src':'',
+      'description': '',
+      'thumbnail': ''
+    };
+  };
+
+  CreateAlbumCtrl.prototype.AddImage = function() {
+    this._obj.images.push(this.NewImage());
+  };
+
+  CreateAlbumCtrl.prototype.RemoveImage = function(index) {
+    if (index < this._obj.images.length && index >= 0) {
+      this._obj.images.splice(index,1);
+    }
+  };
+
+  CreateAlbumCtrl.prototype.create = function() {
+
+    // This can be part of a pre-processing function if we want to
+    // make the controllers generic.
+    this._obj.active = true;
+    this._obj.language = "en";
+    this._obj.userId = this.$rootScope.user.userID;
+    this._obj.id = '';
+
+    return this.Service.create(this._obj).then((function(_this) {
+      return function(data) {
+        return _this.$location.path('/admin/albums');
+      };
+    })(this), (function(_this) {
+      return function(error) {
+        return _this.$log.error("Unable to create album: " + error);
+      };
+    })(this));
+  };
+
+  return CreateAlbumCtrl;
+})();
+controllersModule.controller('CreateAlbumCtrl', ['$rootScope', '$log', '$location', 'AlbumService', CreateAlbumCtrl]);
+
+var AlbumDeleteCtrl = (function() {
+  function AlbumDeleteCtrl($log, $stateParams, $location, AlbumService) {
+    this.$log = $log;
+    this.Service = AlbumService;
+    this.$stateParams = $stateParams;
+    this.$location = $location;
+    this.destroy();
+  }
+
+  AlbumDeleteCtrl.prototype.destroy = function() {
+    return this.Service.destroy(this.$stateParams.id).then((function(_this) {
+      return function(data) {
+        return _this.$location.path("/admin/albums");
+      };
+    })(this), (function(_this) {
+      return function(error) {
+        return _this.$log.error("Unable to delete album: " + error);
+      };
+    })(this));
+  };
+
+  return AlbumDeleteCtrl;
+})();
+controllersModule.controller('AlbumDeleteCtrl', ['$log', '$stateParams', '$location', 'AlbumService', AlbumDeleteCtrl]);

@@ -16,16 +16,15 @@ object AlbumForm {
     */
   val form = Form(
     mapping(
-      "id" -> default(uuid, UUID.randomUUID()),
       "userId" -> uuid,
+      "title" -> optional(text),
       "description" -> optional(text),
       "language" -> text,
       "active" -> boolean,
       "date" -> optional(jodaDate),
-      "city" -> text,
+      "city" -> optional(text),
       "images" -> seq (
         mapping (
-          "id" -> default(uuid, UUID.randomUUID()),
           "src" -> text,
           "thumbnail" -> optional(text),
           "description" -> optional(text)
@@ -34,8 +33,7 @@ object AlbumForm {
     )(AlbumFormData.apply)(AlbumFormData.unapply)
   )
 
-  case class ImageFormData(id:UUID,
-                           src: String,
+  case class ImageFormData(src: String,
                            thumbnail: Option[String],
                            description: Option[String])
 
@@ -43,13 +41,13 @@ object AlbumForm {
     implicit val jsonFormat = Json.format[ImageFormData]
   }
 
-  case class AlbumFormData(id:UUID,
-                           userId: UUID,
+  case class AlbumFormData(userId: UUID,
+                           title: Option[String],
                            description: Option[String],
                            language: String,
                            active: Boolean,
                            date: Option[DateTime],
-                           city: String,
+                           city: Option[String],
                            images: Seq[ImageFormData])
 
   object AlbumFormData {

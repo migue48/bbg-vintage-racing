@@ -29,14 +29,15 @@ class AlbumsController @Inject()(val messagesApi: MessagesApi,
   def create = SecuredAction.async(parse.json) { implicit request =>
     request.body.validate[AlbumForm.AlbumFormData].map { data =>
       val album = Album(
-        id = data.id,
+        id = UUID.randomUUID(),
         userId = data.userId,
+        title = data.title,
         description = data.description,
         language = data.language,
         date = data.date,
         images = data.images.map { img =>
           Image (
-            id = img.id,
+            id = UUID.randomUUID(),
             src = img.src,
             thumbnail = img.thumbnail,
             description = img.description
@@ -59,7 +60,7 @@ class AlbumsController @Inject()(val messagesApi: MessagesApi,
             language = data.language,
             images = data.images.map { img =>
               Image(
-                id = img.id,
+                id = UUID.randomUUID(),
                 src = img.src,
                 thumbnail = img.thumbnail,
                 description = img.description

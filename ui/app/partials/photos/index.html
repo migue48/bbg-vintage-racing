@@ -1,17 +1,12 @@
-<!--
-  - album title
-  - year pull-right
-  - no. pictures
--->
 <div class="row" ng-controller="AlbumPreviewCtrl as c">
   <div class="center-block">
 
     <div masonry masonry-options="{ gutter: 5, isFitWidth: true}" style="margin: 0 auto;" preserve-order>
       <div class="thumbnail masonry-brick" ng-repeat="album in c._objs">
         <a ng-href="/#/photos/{{album.id}}">
-          <img ng-src="{{ album.src }}" alt="Album" style="max-width:250px;">
+          <img ng-src="{{ album.images[0].src }}" alt="Album" style="max-width:250px;">
           <p style="margin-top:5px; margin-bottom:0px;"><small class="bbg_fnt_md bbg_red">{{ album.title }}</small></p>
-          <p><small class="bbg_fnt_aga bbg_blue">{{ album.count }} photos</small></p>
+          <p><small class="bbg_fnt_aga bbg_blue">{{ album.images.length }} photos</small></p>
         </a>
       </div>
     </div>
