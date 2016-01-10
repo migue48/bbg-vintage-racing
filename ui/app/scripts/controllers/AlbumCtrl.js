@@ -148,6 +148,69 @@ var CreateAlbumCtrl =  (function() {
 })();
 controllersModule.controller('CreateAlbumCtrl', ['$rootScope', '$log', '$location', 'AlbumService', CreateAlbumCtrl]);
 
+var UpdateAlbumCtrl =  (function() {
+  function UpdateAlbumCtrl($rootScope, $log, $location, $stateParams, AlbumService) {
+    this.$log = $log;
+    this.$rootScope = $rootScope;
+    this.$location = $location;
+    this.Service = AlbumService;
+    this._obj = {};
+    this._id = $stateParams.id;
+    this.get(this._id);
+  }
+
+  UpdateAlbumCtrl.prototype.get = function(id) {
+    return this.Service.show(id).then((function(_this) {
+      return function(data) {
+        return _this._obj = data.album;
+      };
+    })(this), (function(_this) {
+      return function(error) {
+        return _this.$log.error("Unable to get album: " + error);
+      };
+    })(this));
+  };
+
+  UpdateAlbumCtrl.prototype.NewImage = function() {
+    return {
+      'id':'',
+      'src':'',
+      'description': '',
+      'thumbnail': ''
+    };
+  };
+
+  UpdateAlbumCtrl.prototype.AddImage = function() {
+    this._obj.images.push(this.NewImage());
+  };
+
+  UpdateAlbumCtrl.prototype.RemoveImage = function(index) {
+    if (index < this._obj.images.length && index >= 0) {
+      this._obj.images.splice(index,1);
+    }
+  };
+
+  UpdateAlbumCtrl.prototype.update = function() {
+
+    // This can be part of a pre-processing function if we want to
+    // make the controllers generic.
+    this._obj.userId = this.$rootScope.user.userID;
+    return this.Service.update(this._id, this._obj).then((function(_this) {
+      return function(data) {
+        return _this.$location.path('/admin/albums');
+      };
+    })(this), (function(_this) {
+      return function(error) {
+        return _this.$log.error("Unable to update album: " + error);
+      };
+    })(this));
+  };
+
+  return UpdateAlbumCtrl;
+})();
+controllersModule.controller('UpdateAlbumCtrl', ['$rootScope', '$log', '$location', '$stateParams', 'AlbumService', UpdateAlbumCtrl]);
+
+
 var AlbumDeleteCtrl = (function() {
   function AlbumDeleteCtrl($log, $stateParams, $location, AlbumService) {
     this.$log = $log;

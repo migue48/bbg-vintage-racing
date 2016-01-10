@@ -1,3 +1,5 @@
+<div ng-include="'partials/admin/userstat.html'"></div>
+<br/>
 <div class="row" ng-controller="CreateAlbumCtrl as c">
   <form id="CreateArticleForm" name="CreateArticleForm" class="form-horizontal" role="form"
         ng-submit="c.create()">
@@ -35,10 +37,10 @@
               <tbody>
               <tr ng-repeat="image in c._obj.images | filter:searchText">
                 <td>
-                  <input type="text" class="form-control" name="title" id="title" placeholder="http://..." ng-model="image.src">
+                  <input type="text" class="form-control" name="title" id="img-src" placeholder="http://..." ng-model="image.src">
                 </td>
                 <td>
-                  <input type="text" class="form-control" name="title" id="title" placeholder="Description (Optional)" ng-model="image.description">
+                  <input type="text" class="form-control" name="title" id="img-desc" placeholder="Description (Optional)" ng-model="image.description">
                 </td>
                 <td>
                   <a class="btn btn-danger pull-right" id="btn_img_delete" ng-show="c._obj.images.length > 1" ng-click="c.RemoveImage($index)">Delete</a>

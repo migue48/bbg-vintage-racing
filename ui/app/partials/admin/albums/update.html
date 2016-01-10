@@ -1,0 +1,80 @@
+<div ng-include="'partials/admin/userstat.html'"></div>
+<br/>
+<div class="row" ng-controller="UpdateAlbumCtrl as c">
+  <form id="CreateArticleForm" name="CreateArticleForm" class="form-horizontal" role="form"
+        ng-submit="c.update()">
+    <div class="panel panel-info">
+      <div class="panel-heading">
+        <h3 class="panel-title">Album</h3>
+      </div>
+      <div class="panel-body">
+        <div class="col-sm-12">
+          <div class="form-group col-sm-12">
+            <label id="lbl_title" for="title" class="control-label">Title</label>
+            <input type="text" class="form-control" name="title" id="title" placeholder="Album Title" ng-model="c._obj.title">
+          </div>
+          <div class="form-group col-sm-12">
+            <label id="lbl_text" class="control-label"><i class="fa fa-file-text"></i> Album's Description (Optional)
+              <i class="fa fa-expand" ng-click="expandDesc = !expandDesc" ng-init="expandDesc = false" ng-hide="expandDesc"></i>
+              <i class="fa fa-compress" ng-click="expandDesc = !expandDesc" ng-show="expandDesc"></i>
+            </label>
+            <div ng-show="expandDesc">
+              <text-angular ng-model="c._obj.description" placeholder="Enter album description here."></text-angular>
+            </div>
+          </div>
+
+          <div class="form-group col-sm-12">
+            <label id="lbl_images" class="control-label"><i class="fa fa-picture-o"></i> Images</label>
+
+            <table id="images_list" class="table table-striped">
+              <thead>
+              <tr>
+                <th>Url</th>
+                <th>Description</th>
+                <th><a class="btn btn-primary pull-right" ng-click="c.AddImage()"><i class="fa fa-plus-square"></i></a></th>
+              </tr>
+              </thead>
+              <tbody>
+              <tr ng-repeat="image in c._obj.images | filter:searchText">
+                <td>
+                  <input type="text" class="form-control" name="title" id="img-src" placeholder="http://..." ng-model="image.src">
+                </td>
+                <td>
+                  <input type="text" class="form-control" name="title" id="img-desc" placeholder="Description (Optional)" ng-model="image.description">
+                </td>
+                <td>
+                  <a class="btn btn-danger pull-right" id="btn_img_delete" ng-show="c._obj.images.length > 1" ng-click="c.RemoveImage($index)">Delete</a>
+                </td>
+              </tr>
+              <tr ng-hide="c._obj.images.length">
+                <td colspan="3">
+                  <p class="text-center">No images found.</p>
+                </td>
+              </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="form-group">
+            <div class="col-sm-offset-4 col-sm-8 text-right">
+              <a ui-sref="admin-albums" id="btn_cancel" class="btn btn-warning">Cancel</a>
+
+              <button type="submit" class="btn btn-success" id="btn_create">Update Album</button>
+            </div>
+          </div>
+        </div>
+      </div> <!-- panel body -->
+    </div>  <!-- panel -->
+  </form>
+  <div class="col-sm-12">
+    <p><b>Preview</b></p>
+    <small>Drag and drop images coming soon.</small>
+    <br/>
+  </div>
+  <div class="col-sm-12">
+    <div masonry masonry-options="{ gutter: 5, isFitWidth: true }" style="margin: 0 auto;" >
+      <div class="masonry-brick" ng-repeat="image in c._obj.images">
+        <img ng-src="{{ image.src }}" alt="" style="max-width:250px;">
+      </div>
+    </div>
+  </div>
+</div>

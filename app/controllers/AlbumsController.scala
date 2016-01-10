@@ -56,10 +56,12 @@ class AlbumsController @Inject()(val messagesApi: MessagesApi,
         case Some(album) =>
           val updatedAlbum = album.copy(
             description = data.description,
+            title = data.title,
             date = data.date,
             language = data.language,
             images = data.images.map { img =>
               Image(
+                // TODO: Update method to keep old image id's.
                 id = UUID.randomUUID(),
                 src = img.src,
                 thumbnail = img.thumbnail,
