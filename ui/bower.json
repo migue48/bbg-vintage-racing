@@ -9,11 +9,26 @@
     "angular-resource": "1.4.3",
     "angular-messages": "1.4.3",
     "angular-animate": "1.4.3",
-    "angular-strap": "2.1.5",
     "angular-route": "1.4.3",
     "angular-cookies": "1.4.3",
     "bootstrap-sass-official": "3.3.5",
     "ui-router": "0.2.15",
-    "angulartics-google-analytics": "0.1.3"
+    "angulartics-google-analytics": "0.1.3",
+    "angular-masonry": "~0.14.1",
+    "angular-strap": "~2.3.6"
+  },
+  "overrides": {
+    "outlayer": {
+      "main": [
+        "item.js",
+        "outlayer.js"
+      ]
+    },
+    "masonry": {
+      "main": [
+        "./dist/masonry.pkgd.js"
+      ],
+      "dependencies": {}
+    }
   }
 }

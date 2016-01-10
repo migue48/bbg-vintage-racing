@@ -1,0 +1,65 @@
+<div ng-include="'partials/admin/userstat.html'"></div>
+<div ng-controller="AlbumPreviewCtrl as c">
+  <div>
+    <div class="form-group">
+      <div><a ui-sref="admin" class="bbg_red"><h4><li class="fa fa-arrow-circle-o-left fa-2x" /> Back to Admin </h4></a></div>
+      <h2 class="bbg_blue">
+        <i class="fa fa-picture-o"></i>
+        Albums
+        <a ui-sref="admin-albums-new" class="btn btn-primary pull-right" id="btn_event_create">Add Album</a>
+      </h2>
+      <hr>
+    </div>
+    <div class="form-group">
+      <input class="form-control" type="text" ng-model="searchText" placeholder="Type here to filter Events...">
+      <hr>
+    </div>
+
+    <table id="album_list" class="table table-striped">
+      <thead>
+      <tr>
+        <th>Title</th>
+        <th>Number of Images</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr ng-repeat="album in c._objs | filter:searchText">
+        <td>
+          {{ album.title }}
+        </td>
+        <td>
+          {{ album.images.length }}
+        </td>
+        <td>
+          <a ng-href="/#/admin/albums/update/{{album.id}}" class="btn btn-success pull-right" id="btn_article_update">Edit</a>
+          <a ng-href="/#/admin/albums/delete/{{album.id}}" class="btn btn-danger pull-right" id="btn_article_delete">Delete</a>
+        </td>
+      </tr>
+      <tr ng-hide="c._objs.length">
+        <td colspan="3">
+          <p class="text-center">No Events Found</p>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+
+    <div class="row">
+      <div class="panel-group" role="tablist" aria-multiselectable="true" data-start-collapsed="true" bs-collapse>
+        <div class="panel panel-default" >
+          <div class="panel-heading" role="tab">
+            <h4 class="panel-title">
+              <a bs-collapse-toggle>
+                Debug JSON Data
+              </a>
+            </h4>
+          </div>
+          <div class="panel-collapse" role="tabpanel" bs-collapse-target>
+            <div class="panel-body">
+              <pre>{{ c._objs | json }}</pre>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

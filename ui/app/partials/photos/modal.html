@@ -1,0 +1,18 @@
+<div class="modal" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-body">
+        <a ng-click="$hide()" class="pull-right bbg_blue"><i class="fa fa-times fa-2x"></i></a>
+        <br/>
+        <hr/>
+        <img class="center-block" ng-src="{{c.images[c.index].src}}" style="width:100%;" />
+        <div class="text-center">
+          <hr/>
+          <a ng-click="c.next()" class="bbg_blue"><i class="fa fa-chevron-left fa-2x"></i>  </a>
+          <i class="fa fa-ellipsis-v fa-2x bbg_red"></i>
+          <a ng-click="c.prev()" class="bbg_blue">  <i class="fa fa-chevron-right fa-2x"></i></a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

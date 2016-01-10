@@ -25,6 +25,13 @@ PUT     /api/events/:id               controllers.EventsController.update(id: ja
 DELETE  /api/events/delete/:id        controllers.EventsController.delete(id: java.util.UUID)
 GET     /api/events/:id               controllers.EventsController.show(id: java.util.UUID)
 
+# Album management API
+GET     /api/albums                   controllers.AlbumsController.findAll
+POST    /api/albums                   controllers.AlbumsController.create
+PUT     /api/albums/:id               controllers.AlbumsController.update(id: java.util.UUID)
+DELETE  /api/albums/delete/:id        controllers.AlbumsController.delete(id: java.util.UUID)
+GET     /api/albums/:id               controllers.AlbumsController.show(id: java.util.UUID)
+
 # Dynamic part of the url
 GET         /views/$template<.+>.html        controllers.ApplicationController.view(template)
 

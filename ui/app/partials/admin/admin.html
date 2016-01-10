@@ -1,17 +1,8 @@
-<div class="col-md-12" ng-controller="HomeCtrl" ng-init="init()">
-    <div class="row data">
-        <div class="col-md-12">
-            <div class="row">
-                <p class="text-right"><strong>email:</strong> {{user.email ? user.email : 'None'}}
-                    <a ui-sref="signOut"><i class="fa fa-sign-out"></i></a></p>
-            </div>
-        </div>
-    </div>
-</div>
+<div ng-include="'partials/admin/userstat.html'"></div>
 <div class="col-md-9">
     <h2 class="bbg_red">Administration Console</h2>
     <a ui-sref="admin-articles"><h3><i class="fa fa-newspaper-o"></i> News (Articles)</h3></a>
     <a ui-sref="admin-events"><h3><i class="fa fa-car"></i> Events and Calendar</h3></a>
-    <a><h3><i class="fa fa-picture-o"></i> Gallery</h3></a>
+    <a ui-sref="admin-albums"><h3><i class="fa fa-picture-o"></i> Gallery</h3></a>
     <a><h3><i class="fa fa-users"></i> Users</h3></a>
 </div>

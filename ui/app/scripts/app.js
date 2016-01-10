@@ -22,7 +22,8 @@ var app = angular.module('uiApp', [
   'textAngular',
   'articlePreview',
   'angulartics',
-  'angulartics.google.analytics'
+  'angulartics.google.analytics',
+  'wu.masonry'
 ]);
 
 
@@ -78,7 +79,13 @@ app.config(function ($urlRouterProvider, $stateProvider, $httpProvider, $authPro
     .state('admin-events-new',    { url: '/admin/events/create', templateUrl: '/partials/admin/events/create.html', resolve:  { authenticated: authenticationFnc }})
     .state('admin-events-delete', { url: '/admin/events/delete/:id', template: null, controller: 'EventDeleteCtrl', resolve:  { authenticated: authenticationFnc }})
 
-    // TODO: Photos admin pages go here
+    // Album admin pages
+    .state('admin-albums',        { url: '/admin/albums', templateUrl: '/partials/admin/albums/index.html', resolve:  { authenticated: authenticationFnc }})
+    .state('admin-albums-edit',   { url: '/admin/albums/update/:id', templateUrl: '/partials/admin/albums/update.html', resolve:  { authenticated: authenticationFnc }})
+    .state('admin-albums-new',    { url: '/admin/albums/create', templateUrl: '/partials/admin/albums/create.html', resolve:  { authenticated: authenticationFnc }})
+    .state('admin-albums-delete', { url: '/admin/albums/delete/:id', template: null, controller: 'AlbumDeleteCtrl', resolve:  { authenticated: authenticationFnc }})
+
+
     // TODO: Users admin pages go here
 
     // News
@@ -87,6 +94,10 @@ app.config(function ($urlRouterProvider, $stateProvider, $httpProvider, $authPro
 
     // Calendar
     .state('calendar-index', { url: '/calendar', templateUrl: '/partials/calendar/index.html'})
+
+    // Photos
+    .state('photos-index', { url: '/photos', templateUrl: '/partials/photos/index.html'})
+    .state('photos-show',  { url: '/photos/:id', templateUrl: '/partials/photos/show.html'})
 
     // Root page
     .state('index',             { url:'/',                  templateUrl: '/partials/index.html'})
