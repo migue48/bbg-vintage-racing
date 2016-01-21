@@ -31,7 +31,7 @@ var app = angular.module('uiApp', [
 /**
  * The run configuration.
  */
-app.run(function($rootScope) {
+app.run(function($rootScope, $anchorScroll, $location) {
 
   /**
    * The user data.
@@ -39,10 +39,15 @@ app.run(function($rootScope) {
    * @type {{}}
    */
   $rootScope.user = {};
+
+  // Always scroll
+  $anchorScroll.yOffset = 50;
+
+  $rootScope.scrollTo = function(id) {
+    $location.hash(id);
+    $anchorScroll();
+  }
 });
-
-
-
 
 
 /**
@@ -105,10 +110,6 @@ app.config(function ($urlRouterProvider, $stateProvider, $httpProvider, $authPro
 
     // About pages
     .state('about',             { url:'/about',             templateUrl: '/partials/about/about.html' })
-    .state('about/rcp',         { url:'/about/rcp',         templateUrl: '/partials/about/rcp.html'})
-    .state('about/education',   { url:'/about/education',   templateUrl: '/partials/about/education.html'})
-    .state('about/beneficence', { url:'/about/beneficence', templateUrl: '/partials/about/beneficence.html'})
-
 
     // User login.
     .state('signUp',  { url: '/signUp',  templateUrl: '/views/signUp.html' })

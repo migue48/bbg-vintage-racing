@@ -25,7 +25,11 @@ This project is based on the following templates:
 
 ## Build Instructions
 
-1. [Install MONGODB](https://docs.mongodb.org/v3.0/tutorial/#installation)
+1. [Install MONGODB](https://docs.mongodb.org/v3.0/tutorial/#installation). To run MongoDb:
+
+  ```
+  mongod --config /usr/local/etc/mongod.conf
+  ```
 
 2. Make sure you have [Ruby](https://www.ruby-lang.org/de/) and [node.js](http://nodejs.org/) installed.
 

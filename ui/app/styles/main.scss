@@ -225,6 +225,16 @@ body {
 
 footer {
     text-align: center;
+    bottom: 0;
+    height: 100px;
+
+    a {
+      margin: 5px 5px;
+    }
+}
+
+main {
+    min-height:80%;
 }
 
 .vcenter {
