@@ -13,15 +13,15 @@
             </div>
             <div  class="navbar-collapse" ng-class="{collapse: isCollapsed}">
                 <ul class="nav navbar-nav">
-                    <li><a ui-sref="index" ng-click="isCollapsed = !isCollapsed" class="bbg_red bbg_fnt_md">Home</a></li>
+                    <li><a ui-sref-active="bbg_red" ui-sref="index" ng-click="isCollapsed = !isCollapsed" class="bbg_blue bbg_fnt_md">Home</a></li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
-                    <li><a ui-sref="news-index"     ng-click="isCollapsed = true" class="bbg_blue bbg_fnt_md">News</a></li>
-                    <li><a ui-sref="about"          ng-click="isCollapsed = true" class="bbg_blue bbg_fnt_md">About</a></li>
+                    <li><a ui-sref-active="bbg_red" ui-sref="news-index"     ng-click="isCollapsed = true" class="bbg_blue bbg_fnt_md">News</a></li>
+                    <li><a ui-sref-active="bbg_red" ui-sref="about"          ng-click="isCollapsed = true" class="bbg_blue bbg_fnt_md">About</a></li>
                     <!--<li><a href="/events"           ng-click="isCollapsed = true" class="bbg_blue bbg_fnt_md">Events</a></li>-->
-                    <li><a ui-sref="calendar-index" ng-click="isCollapsed = true" class="bbg_blue bbg_fnt_md">Calendar</a></li>
-                    <li><a ui-sref="photos-index"   ng-click="isCollapsed = true" class="bbg_blue bbg_fnt_md">Gallery</a></li>
-                    <li><a ui-sref="contact"        ng-click="isCollapsed = true" class="bbg_blue bbg_fnt_ch navbar-call">Call!</a></li>
+                    <li><a ui-sref-active="bbg_red" ui-sref="calendar-index" ng-click="isCollapsed = true" class="bbg_blue bbg_fnt_md">Calendar</a></li>
+                    <li><a ui-sref-active="bbg_red" ui-sref="photos-index"   ng-click="isCollapsed = true" class="bbg_blue bbg_fnt_md">Gallery</a></li>
+                    <li><a ui-sref-active="bbg_red" ui-sref="contact"        ng-click="isCollapsed = true" class="bbg_blue bbg_fnt_ch navbar-call">Call!</a></li>
                 </ul>
             </div>
         </div>

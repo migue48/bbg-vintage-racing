@@ -170,12 +170,66 @@ ng\:form {
 
 .nav, .pagination, .carousel, .panel-title a { cursor: pointer; }
 
-@media screen and (min-width: 995px) {
+.navbar {
+  background-color:white;
+}
+
+.navbar-brand>img {
+    display: block;
+    height: 50px;
+    padding: 0;
+    margin: 0;
+    margin-top: -10px;
+}
+
+.navbar-call {
+    font-size:35px !important;
+}
+
+.navbar-header {
+    min-height: 60px;
+}
+
+.navbar-toggle {
+  margin-top:15px;
+}
+
+body {
+    padding-bottom: 30px;
+    margin-top: 65px;
+}
+
+@media screen and (min-width: 768px) {
     .navbar-nav li a {
-        font-size: 20px;
-        margin-top: 10px;
+        font-size: 15px;
+        margin-top: 32px;
+    }
+
+    .navbar-brand>img {
+        display: block;
+        height: 100px;
+        padding: 0;
+        margin: 0;
+        margin-top: -10px;
+    }
+
+    .navbar-header {
+        min-height: 105px;
+    }
+
+    body {
+        padding-bottom: 30px;
+        margin-top: 105px;
     }
 }
+
+@media screen and (min-width: 992px) {
+    .navbar-nav li a {
+        font-size: 20px;
+        margin-top: 32px;
+    }
+}
+
 
 
 .bbg-hr-blue {
@@ -194,6 +248,10 @@ ng\:form {
 
 .bbg-article-preview {
   padding-bottom:5px;
+
+  hr {
+    margin-bottom:5px;
+  }
 }
 
 .bbg-img-center {
@@ -201,27 +259,6 @@ ng\:form {
   margin-right:auto;
 }
 
-/* NAV-BAR */
-.navbar-brand>img {
-    display: block;
-    height: 50px;
-    padding: 0;
-    margin: 0;
-    margin-top: -10px;
-}
-
-.navbar-call {
-    font-size:35px !important;
-}
-
-.navbar-header {
-    min-height: 60px;
-}
-
-body {
-    padding-bottom: 30px;
-    margin-top: 70px;
-}
 
 footer {
     text-align: center;
