@@ -1,3 +1,5 @@
+<div ng-include="'partials/admin/userstat.html'"></div>
+<br/>
 <div class="row" ng-controller="UpdateEventCtrl as c">
   <form id="UpdateArticleForm" name="UpdateArticleForm" class="form-horizontal" role="form"
         ng-submit="c.update()">
@@ -80,10 +82,6 @@
                 </label>
               </div>
             </div>
-          </div>
-
-          <div class="col-sm-12">
-            <pre>{{ c._obj | json }}</pre>
           </div>
           <div class="form-group">
             <div class="col-sm-offset-4 col-sm-8 text-right">

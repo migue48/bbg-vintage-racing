@@ -1,3 +1,5 @@
+<div ng-include="'partials/admin/userstat.html'"></div>
+<br/>
 <div class="row" ng-controller="CreateEventCtrl as c">
   <form id="CreateArticleForm" name="CreateArticleForm" class="form-horizontal" role="form"
         ng-submit="c.create()">
@@ -82,9 +84,6 @@
             </div>
           </div>
 
-          <div class="col-sm-12">
-            <pre>{{ c._obj | json }}</pre>
-          </div>
           <div class="form-group">
             <div class="col-sm-offset-4 col-sm-8 text-right">
               <a ui-sref="admin-events" id="btn_cancel" class="btn btn-warning">Cancel</a>

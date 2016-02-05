@@ -49,7 +49,7 @@ articlePreview.directive('articlePreview', function() {
         } else {
           prevHtml  = rawData.substring(0, idx) + '</p>';
           prevHtml += '<hr>';
-          prevHtml += '<a href="/#/news/'+ articleId +'" class="bbg_red bbg_fnt_md pull-right">Read More <i class="fa fa-plus"></i></a>';
+          prevHtml += '<a href="/#/news/'+ articleId +'" class="bbg_red bbg_fnt_md pull-right"><small>Read More</small></a>';
         }
         element.html(prevHtml);
       };

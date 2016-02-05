@@ -1,10 +1,13 @@
+<div ng-include="'partials/admin/userstat.html'"></div>
+<br/>
 <div ng-controller="UpdateArticleCtrl as uac">
-    <h1>Update Article</h1>
-
     <form id="UpdateArticleForm" name="UpdateArticleForm" class="form-horizontal" role="form"
           ng-submit="uac.updateArticle()">
-        <legend class="sm-col-12">Article Information</legend>
-
+      <div class="panel panel-info">
+        <div class="panel-heading">
+          <h3 class="panel-title">Update Article</h3>
+        </div>
+        <div class="panel-body">
         <div class="form-group">
             <label id="lbl_title" for="title" class="col-sm-1 control-label">Title</label>
 
@@ -15,7 +18,7 @@
         </div>
 
         <div class="form-group">
-            <label id="lbl_text" for="text" class="col-sm-1 control-label">Text</label>
+            <label id="lbl_text" for="content" class="col-sm-1 control-label">Text</label>
 
             <div class="col-sm-11">
                 <text-angular ng-model="uac.article.content"></text-angular>
@@ -27,12 +30,10 @@
                    is-required="UpdateArticleForm.active">Active</label>
 
             <div class="col-sm-11">
-                <input type="text" class="form-control" name="active" id="active"
-                       ng-model="uac.article.active">
+              <select ng-model="uac.article.active" name="active" id="active" class="form-control" ng-options="(item?'true':'false') for item in [true, false]">
+              </select>
             </div>
         </div>
-
-        <pre>{{ uac.article | json }}</pre>
 
         <div class="form-group">
             <div class="col-sm-offset-4 col-sm-8 text-right">
@@ -40,6 +41,8 @@
 
                 <button type="submit" class="btn btn-success" id="btn_create">Update Article</button>
             </div>
+        </div>
+          </div>
         </div>
     </form>
 </div>

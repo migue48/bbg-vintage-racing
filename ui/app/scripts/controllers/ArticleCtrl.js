@@ -7,17 +7,13 @@ var UpdateArticleCtrl = (function() {
     this.$location = $location;
     this.$stateParams = $stateParams;
     this.ArticleService = ArticleService;
-    this.$log.debug("constructing UpdateArticleController");
     this.article = {};
     this.findArticle();
   }
 
   UpdateArticleCtrl.prototype.updateArticle = function() {
-    this.$log.debug("updateArticle()");
-    this.article.active = true;
     return this.ArticleService.update(this.$stateParams.id, this.article).then((function(_this) {
       return function(data) {
-        _this.$log.debug("Promise returned " + data + " Article");
         return _this.$location.path("/admin/articles");
       };
     })(this), (function(_this) {
@@ -30,11 +26,9 @@ var UpdateArticleCtrl = (function() {
   UpdateArticleCtrl.prototype.findArticle = function() {
     var id;
     id = this.$stateParams.id;
-    this.$log.debug("Finding article id: " + id);
     // Update this to use backend find article API
     return this.ArticleService.list().then((function(_this) {
       return function(data) {
-        _this.$log.debug("Promise returned " + data.length + " Articles");
         _this.$log.debug(data);
         _this.article = (data.filter(function(article) {
           return article.id === id;
@@ -47,9 +41,7 @@ var UpdateArticleCtrl = (function() {
       };
     })(this));
   };
-
   return UpdateArticleCtrl;
-
 })();
 
 controllersModule.controller('UpdateArticleCtrl', ['$log', '$location', '$stateParams', 'ArticleService', UpdateArticleCtrl]);
