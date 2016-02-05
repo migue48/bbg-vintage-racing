@@ -25,9 +25,11 @@ object Image {
   * @param description: The album's description.
   * @param language:
   * @param date: Date in which the images were taken.
+  * @param city: Location in which the images were taken.
   * @param creationDate: BBG album creation date.
   * @param updateDate: Last update date.
   * @param images: List of images.
+  * @param cover: The album's cover image.
   * @param active: Flag to enable/disable the album.
   */
 case class Album(id: UUID,
@@ -36,9 +38,11 @@ case class Album(id: UUID,
                  description: Option[String],
                  language: String,
                  date: Option[DateTime],
+                 city: Option[String],
                  creationDate: Option[DateTime] = Some(DateTime.now()),
                  updateDate: Option[DateTime] = Some(DateTime.now()),
                  images: Seq[Image],
+                 cover: Option[String],
                  active:Boolean) {
 
 }

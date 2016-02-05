@@ -35,6 +35,8 @@ class AlbumsController @Inject()(val messagesApi: MessagesApi,
         description = data.description,
         language = data.language,
         date = data.date,
+        city = data.city,
+        cover = data.cover,
         images = data.images.map { img =>
           Image (
             id = UUID.randomUUID(),
@@ -59,6 +61,8 @@ class AlbumsController @Inject()(val messagesApi: MessagesApi,
             title = data.title,
             date = data.date,
             language = data.language,
+            city = data.city,
+            cover = data.cover,
             images = data.images.map { img =>
               Image(
                 // TODO: Update method to keep old image id's.

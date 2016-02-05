@@ -23,6 +23,7 @@ object AlbumForm {
       "active" -> boolean,
       "date" -> optional(jodaDate),
       "city" -> optional(text),
+      "cover" -> optional(text),
       "images" -> seq (
         mapping (
           "src" -> text,
@@ -48,6 +49,7 @@ object AlbumForm {
                            active: Boolean,
                            date: Option[DateTime],
                            city: Option[String],
+                           cover: Option[String],
                            images: Seq[ImageFormData])
 
   object AlbumFormData {

@@ -1,16 +1,28 @@
-<div class="row" ng-controller="AlbumPreviewCtrl as c">
-  <div class="center-block">
-
-    <div masonry masonry-options="{ gutter: 5, isFitWidth: true, transitionDuration: 0 }" style="margin: 0 auto;" preserve-order>
-      <div class="thumbnail masonry-brick" ng-repeat="album in c._objs">
-        <a ng-href="/#/photos/{{album.id}}">
-          <img ng-src="{{ album.images[0].src }}" alt="Album" style="max-width:250px;">
-          <p style="margin-top:5px; margin-bottom:0px;"><small class="bbg_fnt_md bbg_red">{{ album.title }}</small></p>
-          <p><small class="bbg_fnt_aga bbg_blue">{{ album.images.length }} photos</small></p>
-        </a>
+<div ng-controller="AlbumPreviewCtrl as c">
+  <div class="row hidden-xs bbg-gallery-banner">
+    <div style="color:white;">
+      <a ng-href="/#/photos/{{c._objs[0].id}}">
+        <img class="img-responsive" ng-src="{{c._objs[0].cover}}">
+        <h1 class="title">{{c._objs[0].title}}</h1>
+        <h2 class="city">{{c._objs[0].city}}</h2>
+        <h3 class="year">{{c._objs[0].date | date: 'yyyy'}}</h3>
+      </a>
+    </div>
+  </div>
+  <div class="row">
+    <div class="center-block">
+      <div masonry masonry-options="{ gutter: 5, isFitWidth: true, transitionDuration: 0 }" style="margin: 0 auto;" preserve-order>
+        <div class="thumbnail masonry-brick" ng-repeat="album in c._objs">
+          <a ng-href="/#/photos/{{album.id}}">
+            <img ng-src="{{ album.images[0].src }}" alt="Album" style="max-width:320px;">
+            <p style="margin-top:5px; margin-bottom:0px;"><small class="bbg_fnt_md bbg_red">{{ album.title }}</small></p>
+            <p><small class="bbg_fnt_aga bbg_blue">{{ album.images.length }} photos</small></p>
+          </a>
+        </div>
       </div>
     </div>
   </div>
 </div>
+
 
 
