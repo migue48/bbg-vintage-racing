@@ -41,7 +41,7 @@ app.run(function($rootScope, $anchorScroll, $location) {
   $rootScope.user = {};
 
   // Always scroll
-  $anchorScroll.yOffset = 50;
+  $anchorScroll.yOffset = 100;
 
   $rootScope.scrollTo = function(id) {
     $location.hash(id);
