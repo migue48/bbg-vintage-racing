@@ -18,10 +18,10 @@ function ServiceTemplate(nameUrl) {
     this.$q = $q;
   }
 
-  Service.prototype.list = function() {
+  Service.prototype.list = function(params) {
     var deferred;
     deferred = this.$q.defer();
-    this.$http.get(nameUrl).success((function(_this) {
+    this.$http.get(nameUrl, {params: params}).success((function(_this) {
       return function(data, status, headers) {
         return deferred.resolve(data);
       };

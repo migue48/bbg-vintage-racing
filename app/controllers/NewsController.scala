@@ -81,9 +81,12 @@ class NewsController @Inject()(val messagesApi: MessagesApi,
       }
   }
 
-  def findAll() = Action.async {
+  def list(active: Option[Boolean],
+           pagestart: Option[Int],
+           pagesize: Option[Int],
+           language: Option[String]) = Action.async {
 
-    val futureArticlesList: Future[List[Article]] = articleDAO.findAll()
+    val futureArticlesList: Future[List[Article]] = articleDAO.findAll(active, language)
 
     // transform the list into a JsArray
     val futureNewsJsonArray: Future[JsArray] = futureArticlesList.map { articles =>

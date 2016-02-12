@@ -36,10 +36,13 @@ class ArticleDAO  @Inject() (db : DB)  {
     * Finds all active articles.
     * @return The list of active articles.
     */
-  def findAll() : Future[List[Article]] = {
+  def findAll(active: Option[Boolean], language: Option[String]) : Future[List[Article]] = {
     val cursor: Cursor[Article] = collection
-      .find(Json.obj("active" -> true))
-      .sort(Json.obj("created" -> -1))
+        .find(Json.obj(
+          "active" -> active.getOrElse[Boolean](true),
+          "language" -> language.getOrElse[String]("en")
+        ))
+      .sort(Json.obj("creationDate" -> -1))
       .cursor[Article]()
     cursor.collect[List]()
   }

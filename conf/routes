@@ -12,7 +12,7 @@ GET         /authenticate/:provider          controllers.SocialAuthController.au
 POST        /authenticate/:provider          controllers.SocialAuthController.authenticate(provider)
 
 # Article management API
-GET     /api/articles                   controllers.NewsController.findAll
+GET     /api/articles                   controllers.NewsController.list(active: Option[Boolean], pagestart: Option[Int], pagesize: Option[Int],language: Option[String])
 POST    /api/articles                   controllers.NewsController.create
 PUT     /api/articles/:id               controllers.NewsController.update(id: java.util.UUID)
 DELETE  /api/articles/delete/:id        controllers.NewsController.delete(id: java.util.UUID)

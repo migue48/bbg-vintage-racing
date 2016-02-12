@@ -2,13 +2,13 @@
 
 
 var UpdateArticleCtrl = (function() {
-  function UpdateArticleCtrl($log, $location, $stateParams, ArticleService) {
+  function UpdateArticleCtrl($log, $location, $stateParams, $alert, ArticleService) {
     this.$log = $log;
     this.$location = $location;
     this.$stateParams = $stateParams;
     this.ArticleService = ArticleService;
     this.article = {};
-    this.findArticle();
+    this.getArticle(this.$stateParams.id);
   }
 
   UpdateArticleCtrl.prototype.updateArticle = function() {
@@ -23,32 +23,25 @@ var UpdateArticleCtrl = (function() {
     })(this));
   };
 
-  UpdateArticleCtrl.prototype.findArticle = function() {
-    var id;
-    id = this.$stateParams.id;
-    // Update this to use backend find article API
-    return this.ArticleService.list().then((function(_this) {
+  UpdateArticleCtrl.prototype.getArticle = function(id) {
+    return this.ArticleService.show(id).then((function(_this) {
       return function(data) {
-        _this.$log.debug(data);
-        _this.article = (data.filter(function(article) {
-          return article.id === id;
-        }))[0];
-        return _this.$log.debug(_this.article);
+        return _this.article = data.article;
       };
     })(this), (function(_this) {
       return function(error) {
-        return _this.$log.error("Unable to get Articles: " + error);
+        return _this.$log.error("Unable to get article: " + error);
       };
     })(this));
   };
   return UpdateArticleCtrl;
 })();
 
-controllersModule.controller('UpdateArticleCtrl', ['$log', '$location', '$stateParams', 'ArticleService', UpdateArticleCtrl]);
+controllersModule.controller('UpdateArticleCtrl', ['$log', '$location', '$stateParams', '$alert', 'ArticleService', UpdateArticleCtrl]);
 
 
 var ArticleShowCtrl = (function() {
-  function ArticleShowCtrl($log, $stateParams, ArticleService) {
+  function ArticleShowCtrl($log, $stateParams, $alert, ArticleService) {
     this.$log = $log;
     this.$stateParams = $stateParams;
     this.ArticleService = ArticleService;
@@ -70,7 +63,7 @@ var ArticleShowCtrl = (function() {
   return ArticleShowCtrl;
 })();
 
-controllersModule.controller('ArticleShowCtrl', ['$log', '$stateParams', 'ArticleService', ArticleShowCtrl]);
+controllersModule.controller('ArticleShowCtrl', ['$log', '$stateParams', '$alert', 'ArticleService', ArticleShowCtrl]);
 
 
 
@@ -86,7 +79,6 @@ var ArticleDeleteCtrl = (function() {
   ArticleDeleteCtrl.prototype.deleteArticle = function() {
     return this.ArticleService.destroy(this.$stateParams.id).then((function(_this) {
       return function(data) {
-        _this.$log.debug("Promise returned " + data.length + " Articles");
         return _this.$location.path("/admin/articles");
       };
     })(this), (function(_this) {
@@ -99,7 +91,6 @@ var ArticleDeleteCtrl = (function() {
   return ArticleDeleteCtrl;
 
 })();
-
 controllersModule.controller('ArticleDeleteCtrl', ['$log', '$stateParams', '$location', 'ArticleService', ArticleDeleteCtrl]);
 
 
@@ -136,36 +127,51 @@ var CreateArticleCtrl = (function() {
   return CreateArticleCtrl;
 
 })();
-
 controllersModule.controller('CreateArticleCtrl', ['$rootScope', '$log', '$location', 'ArticleService', CreateArticleCtrl]);
 
 
 
 var ArticleCtrl =  (function() {
-  function ArticleCtrl($log, ArticleService) {
+  function ArticleCtrl($log, $alert, ArticleService) {
     this.$log = $log;
+    this.$alert = $alert;
     this.ArticleService = ArticleService;
-    this.$log.debug("constructing ArticleController");
     this.articles = [];
+    this.languages = [{'label':'English','code':'en'},{'label':'Italiano','code':'it'}];
+    this.active = ['Active', 'Inactive'];
+    this.selLang = 0;
+    this.selActive = 0;
     this.getAllArticles();
   }
 
+  ArticleCtrl.prototype.selectLanguage = function(index) {
+    this.selLang = index;
+    this.getAllArticles();
+  };
+
+  ArticleCtrl.prototype.selectActive = function(index) {
+    this.selActive = index;
+    this.getAllArticles();
+  };
+
   ArticleCtrl.prototype.getAllArticles = function() {
-    this.$log.debug("getAllArticles()");
-    return this.ArticleService.list().then((function(_this) {
-      return function(data) {
-        _this.$log.debug("Promise returned " + data.length + " Articles");
-        return _this.articles = data;
-      };
-    })(this), (function(_this) {
-      return function(error) {
-        return _this.$log.error("Unable to get Articles: " + error);
-      };
-    })(this));
+    this.articles.length = 0;
+    return this.ArticleService.list({
+        'active': (this.active[this.selActive] == 'Active')? true:false,
+        'language': this.languages[this.selLang].code
+      }).then((function(_this) {
+        return function(data) {
+          return _this.articles = data;
+        };
+      })(this), (function(_this) {
+        return function(error) {
+          return _this.$log.error("Unable to get Articles: " + error);
+        };
+      })(this));
   };
 
   return ArticleCtrl;
 })();
 
-controllersModule.controller('ArticleCtrl', ['$log', 'ArticleService', ArticleCtrl]);
+controllersModule.controller('ArticleCtrl', ['$log', '$alert', 'ArticleService', ArticleCtrl]);
 

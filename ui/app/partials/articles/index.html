@@ -1,5 +1,5 @@
 <div ng-controller="ArticleCtrl as ac">
-  <div ng-repeat="article in ac.articles" class="col-sm-6 bbg-article-preview">
+  <div ng-repeat="article in ac.articles" class="col-sm-8 col-sm-offset-2 bbg-article-preview">
     <h1 class="bbg_red bbg_fnt_md text-center">{{article.title}}</h1>
     <img ng-src="{{scope.previmg}}" class="img-responsive">
     <div class="bbg_fnt_aga" article-preview="article.content" id="{{article.id}}" ></div>
