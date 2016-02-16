@@ -23,15 +23,22 @@ var app = angular.module('uiApp', [
   'articlePreview',
   'angulartics',
   'angulartics.google.analytics',
-  'wu.masonry'
+  'wu.masonry',
+  "pascalprecht.translate"
 ]);
 
+
+app.config(function($translateProvider) {
+  $translateProvider.translations('en', languageEn);
+  $translateProvider.translations('it', languageIt);
+  $translateProvider.preferredLanguage('en');
+})
 
 
 /**
  * The run configuration.
  */
-app.run(function($rootScope, $anchorScroll, $location) {
+app.run(function($rootScope, $anchorScroll, $location, $translate) {
 
   /**
    * The user data.
@@ -47,6 +54,10 @@ app.run(function($rootScope, $anchorScroll, $location) {
     $location.hash(id);
     $anchorScroll();
   }
+
+  $rootScope.changeLanguage = function (langKey) {
+        $translate.use(langKey);
+  };
 });
 
 
@@ -75,13 +86,13 @@ app.config(function ($urlRouterProvider, $stateProvider, $httpProvider, $authPro
     // Article admin pages
     .state('admin-articles',        { url: '/admin/articles', templateUrl: '/partials/admin/articles/index.html', resolve:  { authenticated: authenticationFnc }})
     .state('admin-articles-edit',   { url: '/admin/articles/update/:id', templateUrl: '/partials/admin/articles/update.html', resolve:  { authenticated: authenticationFnc }})
-    .state('admin-articles-new',    { url: '/admin/articles/create', templateUrl: '/partials/admin/articles/create.html', resolve:  { authenticated: authenticationFnc }})
+    .state('admin-articles-new',    { url: '/admin/articles/create', params: { id:null}, templateUrl: '/partials/admin/articles/create.html', resolve:  { authenticated: authenticationFnc }})
     .state('admin-articles-delete', { url: '/admin/articles/delete/:id', template: null, controller: 'ArticleDeleteCtrl', resolve:  { authenticated: authenticationFnc }})
 
     // Event admin pages
     .state('admin-events',        { url: '/admin/events', templateUrl: '/partials/admin/events/index.html', resolve:  { authenticated: authenticationFnc }})
     .state('admin-events-edit',   { url: '/admin/events/update/:id', templateUrl: '/partials/admin/events/update.html', resolve:  { authenticated: authenticationFnc }})
-    .state('admin-events-new',    { url: '/admin/events/create', templateUrl: '/partials/admin/events/create.html', resolve:  { authenticated: authenticationFnc }})
+    .state('admin-events-new',    { url: '/admin/events/create',  templateUrl: '/partials/admin/events/create.html', resolve:  { authenticated: authenticationFnc }})
     .state('admin-events-delete', { url: '/admin/events/delete/:id', template: null, controller: 'EventDeleteCtrl', resolve:  { authenticated: authenticationFnc }})
 
     // Album admin pages
