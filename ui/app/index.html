@@ -28,12 +28,7 @@
     <div ng-include="'partials/nav.html'"></div>
     <main class="container">
         <div class="row" id="alerts-container"></div>
-        <div class="row">
-          <div class="pull-right">
-            <a ng-click="changeLanguage('en')" >english</a> |
-            <a ng-click="changeLanguage('it')" >italiano</a>
-          </div>
-        </div>
+
         <div class="row">
             <div class="col-sm-12" ui-view></div>
         </div>
@@ -119,6 +114,7 @@
     <script src="scripts/services/ArticleService.js"></script>
     <script src="scripts/services/EventService.js"></script>
     <script src="scripts/services/AlbumService.js"></script>
+    <script src="scripts/services/TranslationService.js"></script>
     <script src="scripts/controllers/HomeCtrl.js"></script>
     <script src="scripts/controllers/SignUpCtrl.js"></script>
     <script src="scripts/controllers/SignInCtrl.js"></script>

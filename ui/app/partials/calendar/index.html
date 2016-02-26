@@ -12,7 +12,7 @@
       <div class="col-sm-12">
         <img class="img-responsive" ng-src="{{cc.cur.image}}" />
         <div ng-if="cc.cur.imageSource">
-          <a href="{{cc.cur.imageSource}}" target="_blank"><small class="text-center">Source: {{cc.cur.imageSource}}</small></a>
+          <a href="{{cc.cur.imageSource}}" target="_blank"><small class="text-center">{{ 'calendar.source' | translate }} {{cc.cur.imageSource}}</small></a>
         </div>
       </div>
     </div>
@@ -21,13 +21,13 @@
     </div>
     <div class="col-md-12">
       <hr>
-      <a class="bbg_red" ng-click="cc.Up()" ng-if="cc.index > 0">Previous</a>
-      <a class="bbg_red pull-right" ng-click="cc.Down()" ng-if="cc.index < cc.events.length - 1">Next</a>
+      <a class="bbg_red" ng-click="cc.Up()" ng-if="cc.index > 0">{{ 'calendar.previous' | translate }}</a>
+      <a class="bbg_red pull-right" ng-click="cc.Down()" ng-if="cc.index < cc.events.length - 1">{{ 'calendar.next' | translate }}</a>
     </div>
   </div>
 
   <div class="col-md-4">
-    <h4 class="bbg_fnt_md text-center">LIST OF EVENTS</h4>
+    <h4 class="bbg_fnt_md text-center">{{ 'calendar.listofevents' | translate }}</h4>
     <hr/>
     <div class="bbg_calendar_list_container">
       <div ng-repeat="event in cc.events track by event.id " ng-click="cc.SelectEvent($index)" id="event{{$index}}">
