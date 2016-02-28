@@ -13,6 +13,13 @@
             <label id="lbl_title" for="title" class="control-label">Title</label>
             <input type="text" class="form-control" name="title" id="title" placeholder="Album Title" ng-model="c._obj.title">
           </div>
+
+          <div class="form-group col-sm-12">
+            <label for="language" class="control-label">Language</label>
+            <select ng-model="c._obj.language" id="language" name="language" id="active" class="form-control"
+                    ng-options="c.TranslationService.label(option) for option in c.languages"></select>
+          </div>
+
           <div class="form-group col-sm-12">
             <label id="lbl_text" class="control-label"><i class="fa fa-file-text"></i> Album's Description (Optional)
               <i class="fa fa-expand" ng-click="expandDesc = !expandDesc" ng-init="expandDesc = false" ng-hide="expandDesc"></i>
@@ -80,6 +87,7 @@
       </div> <!-- panel body -->
     </div>  <!-- panel -->
   </form>
+  <div ng-include="'partials/admin/albums/translations.html'"></div>
   <div class="col-sm-12">
     <p><b>Preview</b></p>
     <small>Drag and drop images coming soon.</small>

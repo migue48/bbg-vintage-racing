@@ -1,8 +1,8 @@
 <div ng-controller="ArticleShowCtrl as ac">
-  <div class="col-sm-12">
+  <div class="col-sm-8 col-sm-offset-2">
     <h1 class="bbg_red bbg_fnt_md text-center">{{ac.article.title}}</h1>
     <div class="bbg_fnt_aga" ng-bind-html="ac.article.content"></div>
-    <hr>
-    <div><a ui-sref="news-index" class="bbg_red bbg_fnt_md"><h4 class="text-right"><li class="fa fa-arrow-circle-o-left" /> Back to News </h4></a></div>
+    <hr style="margin-bottom:5px;">
+    <div><a ui-sref="news-index" class="bbg_red bbg_fnt_md pull-right"><small>{{ 'news.backtonews' | translate }}</small></a></div>
   </div>
 </div>

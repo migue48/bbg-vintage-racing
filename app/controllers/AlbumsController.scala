@@ -10,7 +10,6 @@ import models.{User,Album,Image}
 import models.daos._
 import play.api.i18n.MessagesApi
 import play.api.libs.concurrent.Execution.Implicits._
-import forms.AlbumForm
 import play.api.libs.json._
 import play.api.mvc._
 
@@ -27,55 +26,23 @@ class AlbumsController @Inject()(val messagesApi: MessagesApi,
   extends Silhouette[User, JWTAuthenticator]  {
 
   def create = SecuredAction.async(parse.json) { implicit request =>
-    request.body.validate[AlbumForm.AlbumFormData].map { data =>
-      val album = Album(
-        id = UUID.randomUUID(),
-        userId = data.userId,
-        title = data.title,
-        description = data.description,
-        language = data.language,
-        date = data.date,
-        city = data.city,
-        cover = data.cover,
-        images = data.images.map { img =>
-          Image (
-            id = UUID.randomUUID(),
-            src = img.src,
-            thumbnail = img.thumbnail,
-            description = img.description
-          )
-        },
-        active = data.active
-      )
-      albumDAO.save(album)
+    request.body.validate[Album].map { album =>
+      val newAlbum = album.copy(id = Some(UUID.randomUUID()))
+      albumDAO.save(newAlbum)
       Future.successful(Created(s"Album Created"))
     }.recoverTotal{ error => Future.successful(BadRequest(JsError.toJson(error)))}
   }
 
   def update(id:UUID) = SecuredAction.async(parse.json) { request =>
-    request.body.validate[AlbumForm.AlbumFormData].map { data =>
+    request.body.validate[Album].map { updatedAlbum =>
       albumDAO.find(id).flatMap {
         case Some(album) =>
-          val updatedAlbum = album.copy(
-            description = data.description,
-            title = data.title,
-            date = data.date,
-            language = data.language,
-            city = data.city,
-            cover = data.cover,
-            images = data.images.map { img =>
-              Image(
-                // TODO: Update method to keep old image id's.
-                id = UUID.randomUUID(),
-                src = img.src,
-                thumbnail = img.thumbnail,
-                description = img.description
-              )
-            },
-            active = data.active
-          )
-          albumDAO.save(updatedAlbum)
-          Future.successful(Created(s"Album Updated"))
+          if (album.id != updatedAlbum.id) {
+            Future.successful(BadRequest(s"Invalid object id"))
+          } else {
+            albumDAO.save(updatedAlbum)
+            Future.successful(Created(s"Album Updated"))
+          }
         case None =>
           Future.successful(BadRequest(s"Album does not exist in database"))
       }
@@ -101,9 +68,12 @@ class AlbumsController @Inject()(val messagesApi: MessagesApi,
     }
   }
 
-  def findAll() = Action.async {
+  def list(active: Option[Boolean],
+           pagestart: Option[Int],
+           pagesize: Option[Int],
+           language: Option[String]) = Action.async {
 
-    val futureAlbumsList: Future[List[Album]] = albumDAO.findAll()
+    val futureAlbumsList: Future[List[Album]] = albumDAO.findAll(active, language)
 
     // transform the list into a JsArray
     val futureAlbumsJsonArray: Future[JsArray] = futureAlbumsList.map { albums =>

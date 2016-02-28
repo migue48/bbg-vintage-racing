@@ -1,8 +1,8 @@
 <div ng-include="'partials/admin/userstat.html'"></div>
 <br/>
-<div class="row" ng-controller="CreateArticleCtrl as cac">
+<div class="row" ng-controller="CreateArticleCtrl as c">
    <form id="CreateArticleForm" name="CreateArticleForm" class="form-horizontal" role="form"
-          ng-submit="cac.createArticle()">
+          ng-submit="c.createArticle()">
       <div class="panel panel-info">
         <div class="panel-heading">
           <h3 class="panel-title">New Article</h3>
@@ -11,20 +11,36 @@
 
         <div class="form-group">
             <label id="lbl_title" for="title" class="col-sm-1 control-label">Title</label>
-
             <div class="col-sm-11">
                 <input type="text" class="form-control" name="title" id="title" placeholder=""
-                       ng-model="cac.article.title">
+                       ng-model="c.article.title">
             </div>
         </div>
+
+          <div class="form-group">
+            <label id="lbl_lang" for="language" class="col-sm-1 control-label">Language</label>
+            <div class="col-sm-11">
+              <select ng-model="c.article.language" id="language" name="language" id="active" class="form-control"
+                      ng-options="c.TranslationService.label(option) for option in c.languages"></select>
+            </div>
+          </div>
 
         <div class="form-group">
             <label id="lbl_text" class="col-sm-1 control-label">Text</label>
-
             <div class="col-sm-11">
-                <text-angular ng-model="cac.article.content"></text-angular>
+                <text-angular ng-model="c.article.content"></text-angular>
             </div>
         </div>
+
+          <div class="form-group">
+            <label id="lbl_active" for="active" class="col-sm-1 control-label"
+                   is-required="UpdateArticleForm.active">Active</label>
+
+            <div class="col-sm-11">
+              <select ng-model="c.article.active" name="active" id="active" class="form-control" ng-options="(item?'true':'false') for item in [true, false]">
+              </select>
+            </div>
+          </div>
 
         <div class="form-group">
             <div class="col-sm-offset-4 col-sm-8 text-right">
@@ -36,4 +52,5 @@
           </div>
         </div>
     </form>
+  <div ng-include="'partials/admin/articles/translations.html'"></div>
 </div>

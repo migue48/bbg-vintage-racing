@@ -16,7 +16,7 @@
           <a ng-href="/#/photos/{{album.id}}">
             <img ng-src="{{ album.images[0].src }}" alt="Album" style="max-width:320px;">
             <p style="margin-top:5px; margin-bottom:0px;"><small class="bbg_fnt_md bbg_red">{{ album.title }}</small></p>
-            <p><small class="bbg_fnt_aga bbg_blue">{{ album.images.length }} photos</small></p>
+            <p><small class="bbg_fnt_aga bbg_blue">{{ album.images.length }} {{ 'gallery.photos' | translate }}</small></p>
           </a>
         </div>
       </div>

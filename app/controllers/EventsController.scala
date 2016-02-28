@@ -10,7 +10,6 @@ import models.{User,Event}
 import models.daos._
 import play.api.i18n.MessagesApi
 import play.api.libs.concurrent.Execution.Implicits._
-import forms.EventForm
 import play.api.libs.json._
 import play.api.mvc._
 
@@ -27,44 +26,23 @@ class EventsController @Inject()(val messagesApi: MessagesApi,
   extends Silhouette[User, JWTAuthenticator]  {
 
   def create = SecuredAction.async(parse.json) { implicit request =>
-    request.body.validate[EventForm.Data].map { data =>
-      val event = Event(
-        id = UUID.randomUUID(),
-        userId = data.userId,
-        title = data.title,
-        description = data.description,
-        address = Some(data.address),
-        city = data.city,
-        startDate = data.startDate,
-        endDate = Some(data.endDate),
-        language = data.language,
-        image = data.image,
-        imageSource = Some(data.imageSource),
-        active = data.active
-      )
-      eventDAO.save(event)
+    request.body.validate[Event].map { event =>
+      val newEvent = event.copy(id = Some(UUID.randomUUID()))
+      eventDAO.save(newEvent)
       Future.successful(Created(s"Event Created"))
     }.recoverTotal{ error => Future.successful(BadRequest(JsError.toJson(error)))}
   }
 
   def update(id:UUID) = SecuredAction.async(parse.json) { request =>
-    request.body.validate[EventForm.Data].map { data =>
+    request.body.validate[Event].map { updatedEvent =>
       eventDAO.find(id).flatMap {
         case Some(article) =>
-          val updatedEvent = article.copy(
-            title = data.title,
-            description = data.description,
-            address = Some(data.address),
-            city = data.city,
-            startDate = data.startDate,
-            endDate = Some(data.endDate),
-            language = data.language,
-            image = data.image,
-            imageSource = Some(data.imageSource),
-            active = data.active
-          )
-          eventDAO.save(updatedEvent)
-          Future.successful(Created(s"Event Updated"))
+          if (updatedEvent.id != article.id) {
+            Future.successful(BadRequest(s"Invalid object id"))
+          } else {
+            eventDAO.save(updatedEvent)
+            Future.successful(Created(s"Event Updated"))
+          }
         case None =>
           Future.successful(BadRequest(s"Event does not exist in database"))
       }
@@ -90,9 +68,12 @@ class EventsController @Inject()(val messagesApi: MessagesApi,
     }
   }
 
-  def findAll() = Action.async {
+  def list(active: Option[Boolean],
+           pagestart: Option[Int],
+           pagesize: Option[Int],
+           language: Option[String])  = Action.async {
 
-    val futureEventsList: Future[List[Event]] = eventDAO.findAll()
+    val futureEventsList: Future[List[Event]] = eventDAO.findAll(active, language)
 
     // transform the list into a JsArray
     val futureEventsJsonArray: Future[JsArray] = futureEventsList.map { events =>

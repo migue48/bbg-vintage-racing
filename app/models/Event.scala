@@ -1,3 +1,7 @@
+/**
+  * Copyright (C) 2016 Miguel Osorio. All rights reserved.
+  */
+
 package models
 
 import java.util.UUID
@@ -20,9 +24,10 @@ import play.api.libs.json.Json
   * @param endDate: Event's end date (optional).
   * @param creationDate: The date in which the Event was created in the database.
   * @param updateDate: The date in which the Event was last updated.
+  * @param translations: Available translations.
   * @param active: Flag to enable/disable the event.
   */
-case class Event (id: UUID,
+case class Event (id: Option[UUID],
                   userId: UUID,
                   language:String,
                   image:String = "",
@@ -35,6 +40,7 @@ case class Event (id: UUID,
                   endDate:Option[DateTime] = None,
                   creationDate:Option[DateTime] = None,
                   updateDate:Option[DateTime] = None,
+                  translations: Option[Seq[Translation]] = None,
                   active:Boolean)
 
 object Event {

@@ -1,8 +1,8 @@
 <div ng-include="'partials/admin/userstat.html'"></div>
 <br/>
-<div ng-controller="UpdateArticleCtrl as uac">
+<div ng-controller="UpdateArticleCtrl as c">
     <form id="UpdateArticleForm" name="UpdateArticleForm" class="form-horizontal" role="form"
-          ng-submit="uac.updateArticle()">
+          ng-submit="c.updateArticle()">
       <div class="panel panel-info">
         <div class="panel-heading">
           <h3 class="panel-title">Update Article</h3>
@@ -13,15 +13,14 @@
 
             <div class="col-sm-11">
                 <input type="text" class="form-control" name="title" id="title" placeholder=""
-                       ng-model="uac.article.title">
+                       ng-model="c.article.title">
             </div>
         </div>
 
         <div class="form-group">
-            <label id="lbl_text" for="content" class="col-sm-1 control-label">Text</label>
-
+            <label id="lbl_text"  class="col-sm-1 control-label">Text</label>
             <div class="col-sm-11">
-                <text-angular ng-model="uac.article.content"></text-angular>
+                <text-angular ng-model="c.article.content" ></text-angular>
             </div>
         </div>
 
@@ -30,7 +29,7 @@
                    is-required="UpdateArticleForm.active">Active</label>
 
             <div class="col-sm-11">
-              <select ng-model="uac.article.active" name="active" id="active" class="form-control" ng-options="(item?'true':'false') for item in [true, false]">
+              <select ng-model="c.article.active" name="active" id="active" class="form-control" ng-options="(item?'true':'false') for item in [true, false]">
               </select>
             </div>
         </div>
@@ -45,4 +44,7 @@
           </div>
         </div>
     </form>
+  <div ng-include="'partials/admin/articles/translations.html'"></div>
 </div>
+
+

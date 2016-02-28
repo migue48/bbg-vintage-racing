@@ -1,3 +1,6 @@
+/**
+  * Copyright (C) 2015-2016 Miguel Osorio. All rights reserved.
+  */
 package models
 
 import java.util.UUID
@@ -30,9 +33,10 @@ object Image {
   * @param updateDate: Last update date.
   * @param images: List of images.
   * @param cover: The album's cover image.
+  * @param translations: Available translations.
   * @param active: Flag to enable/disable the album.
   */
-case class Album(id: UUID,
+case class Album(id: Option[UUID],
                  userId: UUID,
                  title: Option[String] = None,
                  description: Option[String],
@@ -43,6 +47,7 @@ case class Album(id: UUID,
                  updateDate: Option[DateTime] = Some(DateTime.now()),
                  images: Seq[Image],
                  cover: Option[String],
+                 translations: Option[Seq[Translation]] = None,
                  active:Boolean) {
 
 }

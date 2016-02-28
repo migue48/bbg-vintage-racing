@@ -7,7 +7,7 @@ var articlePreview = angular.module('articlePreview', []);
  * Currently, the preview is based on the first two paragraphs in the
  * article.
  */
-articlePreview.directive('articlePreview', function() {
+articlePreview.directive('articlePreview',  ['$translate', function($translate) {
   return {
     // The restrict option can be se to:
     //   - 'A' - only matches attribute name
@@ -46,12 +46,15 @@ articlePreview.directive('articlePreview', function() {
         if (idx < 0) {
           // Not enough paragraphs to generate preview.
           prevHtml = rawData;
+          element.html(prevHtml);
         } else {
-          prevHtml  = rawData.substring(0, idx) + '</p>';
-          prevHtml += '<hr>';
-          prevHtml += '<a href="/#/news/'+ articleId +'" class="bbg_red bbg_fnt_md pull-right"><small>Read More</small></a>';
+          $translate('news.readmore').then(function(readmore) {
+            prevHtml  = rawData.substring(0, idx) + '</p>';
+            prevHtml += '<hr>';
+            prevHtml += '<a href="/#/news/'+ articleId +'" class="bbg_red bbg_fnt_md pull-right"><small>'+readmore+'</small></a>';
+            element.html(prevHtml);
+          });
         }
-        element.html(prevHtml);
       };
 
       scope.$watch(attrs.articlePreview, function(value) {
@@ -62,4 +65,4 @@ articlePreview.directive('articlePreview', function() {
 
     }
   };
-});
+}]);

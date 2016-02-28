@@ -7,7 +7,18 @@
       <h2 class="bbg_blue">
         <i class="fa fa-car"></i>
         Events
-        <a ui-sref="admin-events-new" class="btn btn-primary pull-right" id="btn_event_create">Add Event</a>
+        <div class="pull-right">
+          <button type="button" class="btn btn-primary" data-animation="am-flip-x" bs-dropdown aria-haspopup="true" aria-expanded="false">{{ c.active[c.selActive] }} <i class="fa fa-chevron-down"></i></button>
+          <ul class="dropdown-menu" role="menu">
+            <li ng-repeat="i in c.active"><a ng-click="c.selectActive($index)"><i class="fa fa-chevron-right"></i>&nbsp;{{i}}</a></li>
+          </ul>
+
+          <button type="button" class="btn btn-primary" data-animation="am-flip-x" bs-dropdown aria-haspopup="true" aria-expanded="false"> {{ c.TranslationService.label(c.selLang) }} <i class="fa fa-chevron-down"></i></button>
+          <ul class="dropdown-menu" role="menu">
+            <li ng-repeat="i in c.languages"><a ng-click="c.selectLanguage($index)"><i class="fa fa-chevron-right"></i>&nbsp;{{ c.TranslationService.label(i) }}</a></li>
+          </ul>
+          <a ui-sref="admin-events-new" class="btn btn-primary" id="btn_article_create">Add Event</a>
+        </div>
       </h2>
       <hr>
     </div>
@@ -32,8 +43,11 @@
           {{ event.updateDate | date: 'short'}}
         </td>
         <td>
-          <a ng-href="/#/admin/events/update/{{event.id}}" class="btn btn-success pull-right" id="btn_article_update">Edit</a>
-          <a ng-href="/#/admin/events/delete/{{event.id}}" class="btn btn-danger pull-right" id="btn_article_delete">Delete</a>
+          <div class="pull-right">
+            <a ui-sref="admin-events-new({id: event.id})" class="btn btn-primary">Translate</a>
+            <a ng-href="/#/admin/events/update/{{event.id}}" class="btn btn-success">Edit</a>
+            <a ng-href="/#/admin/events/delete/{{event.id}}" class="btn btn-danger">Delete</a>
+          </div>
         </td>
       </tr>
       <tr ng-hide="c._objs.length">

@@ -6,7 +6,18 @@
             <h2 class="bbg_blue">
                 <i class="fa fa-newspaper-o"></i>
                 Articles
-                <a ui-sref="admin-articles-new" class="btn btn-primary pull-right" id="btn_article_create">Add Article</a>
+                <div class="pull-right">
+                  <button type="button" class="btn btn-primary" data-animation="am-flip-x" bs-dropdown aria-haspopup="true" aria-expanded="false">{{ ac.active[ac.selActive] }} <i class="fa fa-chevron-down"></i></button>
+                  <ul class="dropdown-menu" role="menu">
+                    <li ng-repeat="i in ac.active"><a ng-click="ac.selectActive($index)"><i class="fa fa-chevron-right"></i>&nbsp;{{i}}</a></li>
+                  </ul>
+
+                  <button type="button" class="btn btn-primary" data-animation="am-flip-x" bs-dropdown aria-haspopup="true" aria-expanded="false"> {{ ac.TranslationService.label(ac.selLang) }} <i class="fa fa-chevron-down"></i></button>
+                  <ul class="dropdown-menu" role="menu">
+                    <li ng-repeat="i in ac.languages"><a ng-click="ac.selectLanguage($index)"><i class="fa fa-chevron-right"></i>&nbsp;{{ ac.TranslationService.label(i) }}</a></li>
+                  </ul>
+                  <a ui-sref="admin-articles-new" class="btn btn-primary" id="btn_article_create">Add Article</a>
+                </div>
             </h2>
             <hr>
         </div>
@@ -32,8 +43,11 @@
                     {{ article.updateDate | date: 'short'}}
                 </td>
                 <td>
-                    <a ng-href="/#/admin/articles/update/{{article.id}}" class="btn btn-success pull-right" id="btn_article_update">Edit</a>
-                    <a ng-href="/#/admin/articles/delete/{{article.id}}" class="btn btn-danger pull-right" id="btn_article_delete">Delete</a>
+                    <div class="pull-right">
+                      <a ui-sref="admin-articles-new({id: article.id})" class="btn btn-primary" id="btn_article_translate">Translate</a>
+                      <a ng-href="/#/admin/articles/delete/{{article.id}}" class="btn btn-danger" id="btn_article_delete">Delete</a>
+                      <a ng-href="/#/admin/articles/update/{{article.id}}" class="btn btn-success" id="btn_article_update">Edit</a>
+                    </div>
                 </td>
             </tr>
             <tr ng-hide="ac.articles.length">

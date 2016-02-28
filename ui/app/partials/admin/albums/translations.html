@@ -1,0 +1,23 @@
+<div ng-show="c._obj.translations">
+  <h4>Available Translations</h4>
+  <table class="table table-striped">
+    <thead>
+    <tr>
+      <th>Language</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr ng-repeat="album in c._obj.translations">
+      <td>
+        {{ c.TranslationService.label(album.language) }}
+      </td>
+      <td>
+        <div class="pull-right">
+          <a ng-href="/#/admin/albums/delete/{{album.id}}" class="btn btn-danger" >Delete</a>
+          <a ng-href="/#/admin/albums/update/{{album.id}}" class="btn btn-success">Edit</a>
+        </div>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+</div>

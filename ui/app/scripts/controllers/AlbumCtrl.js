@@ -1,85 +1,104 @@
 'use strict';
 
-var AlbumModalCtrl =  (function() {
+
+controllersModule.controller('AlbumModalCtrl', ['images', 'index', function() {
   function AlbumModalCtrl(images, index) {
     this.images = images;
     this.index = index;
   }
 
   AlbumModalCtrl.prototype.next = function() {
-    if (this.images.length - 1 == this.index) {
-      this.index = 0;
-    } else {
-      this.index += 1;
-    }
+   if (this.images.length - 1 == this.index) {
+     this.index = 0;
+   } else {
+     this.index += 1;
+   }
   };
 
   AlbumModalCtrl.prototype.prev = function() {
-    if (this.index == 0) {
-      this.index = this.images.length;
-    } else {
-      this.index -= 1;
-    }
+   if (this.index == 0) {
+     this.index = this.images.length;
+   } else {
+     this.index -= 1;
+   }
   };
 
   return AlbumModalCtrl;
-})();
-controllersModule.controller('AlbumModalCtrl', ['images', 'index', AlbumModalCtrl]);
+}()]);
 
-var AlbumCtrl =  (function() {
+controllersModule.controller('AlbumCtrl', ['$log', '$modal', '$stateParams', 'AlbumService', function() {
   function AlbumCtrl($log, $modal, $stateParams, AlbumService) {
     this.$log = $log;
     this.$modal = $modal;
     this.Service = AlbumService;
     this._obj = {};
     this.get($stateParams.id);
-
   }
 
   AlbumCtrl.prototype.get = function(id) {
-    return this.Service.show(id).then((function(_this) {
-      return function(data) {
-        return _this._obj = data.album;
-      };
-    })(this), (function(_this) {
-      return function(error) {
-        return _this.$log.error("Unable to get album: " + error);
-      };
-    })(this));
+   return this.Service.show(id).then((function(_this) {
+     return function(data) {
+       return _this._obj = data.album;
+     };
+   })(this), (function(_this) {
+     return function(error) {
+       return _this.$log.error("Unable to get album: " + error);
+     };
+   })(this));
   };
 
   AlbumCtrl.prototype.showModal = function(index) {
-    var modal = this.$modal({
-        title: '',
-        position: 'bottom',
-        content: false,
-        show: true,
-        templateUrl:'/partials/photos/modal.html',
-        controller:'AlbumModalCtrl',
-        controllerAs: 'c',
-        locals: {
-            images: this._obj.images,
-            index: index
-          }
-      });
-
+   var modal = this.$modal({
+       title: '',
+       position: 'bottom',
+       content: false,
+       show: true,
+       templateUrl:'/partials/photos/modal.html',
+       controller:'AlbumModalCtrl',
+       controllerAs: 'c',
+       locals: {
+           images: this._obj.images,
+           index: index
+         }
+     });
   };
   return AlbumCtrl;
-})();
-controllersModule.controller('AlbumCtrl', ['$log', '$modal', '$stateParams', 'AlbumService', AlbumCtrl]);
+}()]);
 
-
-
-var AlbumPreviewCtrl =  (function() {
-  function AlbumPreviewCtrl($log, AlbumService) {
+controllersModule.controller('AlbumPreviewCtrl', ['$log', 'AlbumService', 'TranslationService', function() {
+  function AlbumPreviewCtrl($log, AlbumService, TranslationService) {
     this.$log = $log;
     this.Service = AlbumService;
     this._objs = [];
+    this.TranslationService = TranslationService;
+    this.languages = TranslationService.supportedLanguages();
+    this.active = ['Active', 'Inactive'];
+    this.selLang =  this.TranslationService.getLanguage();
+    this.selActive = 0;
     this.list();
   }
 
+  AlbumPreviewCtrl.prototype.changeLanguage = function (key) {
+   this.TranslationService.changeLanguage(key);
+   this.selLang = key;
+   this.list();
+  };
+
+  AlbumPreviewCtrl.prototype.selectLanguage = function(index) {
+   this.selLang = this.languages[index];
+   this.list();
+  };
+
+  AlbumPreviewCtrl.prototype.selectActive = function(index) {
+   this.selActive = index;
+   this.list();
+  };
+
   AlbumPreviewCtrl.prototype.list = function() {
-    return this.Service.list().then((function(_this) {
+    return this.Service.list({
+       'active': (this.active[this.selActive] == 'Active')? true:false,
+       'language': this.selLang
+      }).then((function(_this) {
       return function(data) {
         return _this._objs = data;
       };
@@ -91,18 +110,27 @@ var AlbumPreviewCtrl =  (function() {
   };
 
   return AlbumPreviewCtrl;
-})();
-controllersModule.controller('AlbumPreviewCtrl', ['$log', 'AlbumService', AlbumPreviewCtrl]);
+}()]);
 
-var CreateAlbumCtrl =  (function() {
-  function CreateAlbumCtrl($rootScope, $log, $location, AlbumService) {
+
+controllersModule.controller('CreateAlbumCtrl', ['$rootScope', '$log', '$location', '$stateParams', 'AlbumService', 'TranslationService', function() {
+  function CreateAlbumCtrl($rootScope, $log, $location, $stateParams, AlbumService, TranslationService) {
     this.$log = $log;
     this.$rootScope = $rootScope;
     this.$location = $location;
     this.Service = AlbumService;
-    this._obj = {'images': [
-      this.NewImage()
-    ]};
+
+    this.TranslationService = TranslationService;
+    this.languages = this.TranslationService.supportedLanguages();
+    this.refId = $stateParams.id;
+    this._obj = {};
+    if (this.refId === undefined || this.refId === null) {
+      this._obj.language = 'en';
+      this._obj.active = true;
+      this._obj.images = [this.NewImage()];
+      return;
+    }
+    this.get(this.refId);
   }
 
   CreateAlbumCtrl.prototype.NewImage = function() {
@@ -125,14 +153,7 @@ var CreateAlbumCtrl =  (function() {
   };
 
   CreateAlbumCtrl.prototype.create = function() {
-
-    // This can be part of a pre-processing function if we want to
-    // make the controllers generic.
-    this._obj.active = true;
-    this._obj.language = "en";
     this._obj.userId = this.$rootScope.user.userID;
-    this._obj.id = '';
-
     return this.Service.create(this._obj).then((function(_this) {
       return function(data) {
         return _this.$location.path('/admin/albums');
@@ -144,16 +165,38 @@ var CreateAlbumCtrl =  (function() {
     })(this));
   };
 
-  return CreateAlbumCtrl;
-})();
-controllersModule.controller('CreateAlbumCtrl', ['$rootScope', '$log', '$location', 'AlbumService', CreateAlbumCtrl]);
+  CreateAlbumCtrl.prototype.get = function(id) {
+    return this.Service.show(id).then((function(_this) {
+      return function(data) {
+        var translation = {'language': data.album.language, 'id': data.album.id};
+        data.album.id = null;
+        if (data.album.translations == null || data.album.translations == undefined) {
+          data.album.translations = [translation];
+        } else {
+          data.album.translations.push(translation);
+        }
+        if (data.album.images == null || data.album.images == undefined) {
+          data.album.images = [this.NewImage()];
+        }
+        return _this._obj = data.album;
+      };
+    })(this), (function(_this) {
+      return function(error) {
+        return _this.$log.error("Unable to get album: " + error);
+      };
+    })(this));
+  };
 
-var UpdateAlbumCtrl =  (function() {
-  function UpdateAlbumCtrl($rootScope, $log, $location, $stateParams, AlbumService) {
+  return CreateAlbumCtrl;
+}()]);
+
+controllersModule.controller('UpdateAlbumCtrl', ['$rootScope', '$log', '$location', '$stateParams', 'AlbumService', 'TranslationService',function() {
+  function UpdateAlbumCtrl($rootScope, $log, $location, $stateParams, AlbumService, TranslationService) {
     this.$log = $log;
     this.$rootScope = $rootScope;
     this.$location = $location;
     this.Service = AlbumService;
+    this.TranslationService = TranslationService;
     this._obj = {};
     this._id = $stateParams.id;
     this.get(this._id);
@@ -205,13 +248,10 @@ var UpdateAlbumCtrl =  (function() {
       };
     })(this));
   };
-
   return UpdateAlbumCtrl;
-})();
-controllersModule.controller('UpdateAlbumCtrl', ['$rootScope', '$log', '$location', '$stateParams', 'AlbumService', UpdateAlbumCtrl]);
+}()]);
 
-
-var AlbumDeleteCtrl = (function() {
+controllersModule.controller('AlbumDeleteCtrl', ['$log', '$stateParams', '$location', 'AlbumService', function() {
   function AlbumDeleteCtrl($log, $stateParams, $location, AlbumService) {
     this.$log = $log;
     this.Service = AlbumService;
@@ -233,5 +273,4 @@ var AlbumDeleteCtrl = (function() {
   };
 
   return AlbumDeleteCtrl;
-})();
-controllersModule.controller('AlbumDeleteCtrl', ['$log', '$stateParams', '$location', 'AlbumService', AlbumDeleteCtrl]);
+}()]);

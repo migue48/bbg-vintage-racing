@@ -27,6 +27,14 @@
     <!-- Add your site or application content here -->
     <div ng-include="'partials/nav.html'"></div>
     <main class="container">
+      <div class="row">
+        <div class="pull-right">
+          <a ng-click="changeLanguage('en')" >english</a> |
+          <a ng-click="changeLanguage('it')" >italiano</a>
+        </div>
+      </div>
+        <div class="row" id="alerts-container"></div>
+
         <div class="row">
             <div class="col-sm-12" ui-view></div>
         </div>
@@ -91,6 +99,8 @@
     <script src="bower_components/angular-masonry/angular-masonry.js"></script>
     <script src="bower_components/angular-strap/dist/angular-strap.js"></script>
     <script src="bower_components/angular-strap/dist/angular-strap.tpl.js"></script>
+    <script src="bower_components/angular-translate/angular-translate.js"></script>
+    <script src="bower_components/angular-translate-storage-cookie/angular-translate-storage-cookie.js"></script>
     <!-- endbower -->
     <!-- endbuild -->
 
@@ -102,6 +112,8 @@
     <script src='lib/textAngular-sanitize.min.js'></script>
     <script src='lib/textAngular.js'></script>
     <script src='lib/textAngularSetup.js'></script>
+    <script src="scripts/translations/en.js"></script>
+    <script src="scripts/translations/it.js"></script>
     <script src="scripts/app.js"></script>
     <script src="scripts/controllers/ArticleCtrl.js"></script>
     <script src="scripts/controllers/EventCtrl.js"></script>
@@ -109,6 +121,7 @@
     <script src="scripts/services/ArticleService.js"></script>
     <script src="scripts/services/EventService.js"></script>
     <script src="scripts/services/AlbumService.js"></script>
+    <script src="scripts/services/TranslationService.js"></script>
     <script src="scripts/controllers/HomeCtrl.js"></script>
     <script src="scripts/controllers/SignUpCtrl.js"></script>
     <script src="scripts/controllers/SignInCtrl.js"></script>

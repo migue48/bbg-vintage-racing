@@ -20,33 +20,64 @@ var app = angular.module('uiApp', [
   'uiApp.controllers',
   'uiApp.services',
   'textAngular',
-  'articlePreview',
   'angulartics',
   'angulartics.google.analytics',
-  'wu.masonry'
+  'wu.masonry',
+  "pascalprecht.translate",
+  'articlePreview',
 ]);
 
+
+/*
+ * Angular translate configuration.  This configures the available
+ * translations for the application, sets the default language to 'en'
+ * and  enabled cookie storage. The cookie storage is required to get
+ * the language selection to persist between reload events.
+ */
+app.config(function($translateProvider) {
+  $translateProvider.useCookieStorage();
+  $translateProvider.translations('en', languageEn);
+  $translateProvider.translations('it', languageIt);
+  $translateProvider.preferredLanguage('en');
+  $translateProvider.useSanitizeValueStrategy('sanitize');
+})
 
 
 /**
  * The run configuration.
  */
-app.run(function($rootScope, $anchorScroll, $location) {
+app.run(function($rootScope, $anchorScroll, $location, $translate, $state, $stateParams) {
 
   /**
-   * The user data.
-   *
-   * @type {{}}
-   */
+  * The logged in user object.
+  */
   $rootScope.user = {};
 
-  // Always scroll
-  $anchorScroll.yOffset = 50;
 
+  // Default offset used as part of the scroll operation.
+  $anchorScroll.yOffset = 100;
+
+  /**
+   * Root scope function used to implement anchor scroll functionality.
+   *
+   * @param {string} id HTML id of the target object.
+   */
   $rootScope.scrollTo = function(id) {
     $location.hash(id);
     $anchorScroll();
   }
+
+  /**
+   * Root scope function used to change the language setting. This function
+   * triggers a $state reload event to be able to perform a language switch
+   * as part of the controller init flow associated with the given state.
+   *
+   * @param {string} langKey Language locale code.
+   */
+  $rootScope.changeLanguage = function (langKey) {
+        $translate.use(langKey);
+        $state.go($state.current, $stateParams, {reload: true, inherit: false});
+  };
 });
 
 
@@ -75,19 +106,19 @@ app.config(function ($urlRouterProvider, $stateProvider, $httpProvider, $authPro
     // Article admin pages
     .state('admin-articles',        { url: '/admin/articles', templateUrl: '/partials/admin/articles/index.html', resolve:  { authenticated: authenticationFnc }})
     .state('admin-articles-edit',   { url: '/admin/articles/update/:id', templateUrl: '/partials/admin/articles/update.html', resolve:  { authenticated: authenticationFnc }})
-    .state('admin-articles-new',    { url: '/admin/articles/create', templateUrl: '/partials/admin/articles/create.html', resolve:  { authenticated: authenticationFnc }})
+    .state('admin-articles-new',    { url: '/admin/articles/create', params: { id:null}, templateUrl: '/partials/admin/articles/create.html', resolve:  { authenticated: authenticationFnc }})
     .state('admin-articles-delete', { url: '/admin/articles/delete/:id', template: null, controller: 'ArticleDeleteCtrl', resolve:  { authenticated: authenticationFnc }})
 
     // Event admin pages
     .state('admin-events',        { url: '/admin/events', templateUrl: '/partials/admin/events/index.html', resolve:  { authenticated: authenticationFnc }})
     .state('admin-events-edit',   { url: '/admin/events/update/:id', templateUrl: '/partials/admin/events/update.html', resolve:  { authenticated: authenticationFnc }})
-    .state('admin-events-new',    { url: '/admin/events/create', templateUrl: '/partials/admin/events/create.html', resolve:  { authenticated: authenticationFnc }})
+    .state('admin-events-new',    { url: '/admin/events/create', params: { id:null}, templateUrl: '/partials/admin/events/create.html', resolve:  { authenticated: authenticationFnc }})
     .state('admin-events-delete', { url: '/admin/events/delete/:id', template: null, controller: 'EventDeleteCtrl', resolve:  { authenticated: authenticationFnc }})
 
     // Album admin pages
     .state('admin-albums',        { url: '/admin/albums', templateUrl: '/partials/admin/albums/index.html', resolve:  { authenticated: authenticationFnc }})
     .state('admin-albums-edit',   { url: '/admin/albums/update/:id', templateUrl: '/partials/admin/albums/update.html', resolve:  { authenticated: authenticationFnc }})
-    .state('admin-albums-new',    { url: '/admin/albums/create', templateUrl: '/partials/admin/albums/create.html', resolve:  { authenticated: authenticationFnc }})
+    .state('admin-albums-new',    { url: '/admin/albums/create', params: { id:null}, templateUrl: '/partials/admin/albums/create.html', resolve:  { authenticated: authenticationFnc }})
     .state('admin-albums-delete', { url: '/admin/albums/delete/:id', template: null, controller: 'AlbumDeleteCtrl', resolve:  { authenticated: authenticationFnc }})
 
 
