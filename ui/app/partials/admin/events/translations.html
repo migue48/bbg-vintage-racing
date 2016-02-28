@@ -1,0 +1,23 @@
+<div ng-show="c._obj.translations">
+  <h4>Available Translations</h4>
+  <table class="table table-striped">
+    <thead>
+    <tr>
+      <th>Language</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr ng-repeat="event in c._obj.translations">
+      <td>
+        {{ c.TranslationService.label(event.language) }}
+      </td>
+      <td>
+        <div class="pull-right">
+          <a ng-href="/#/admin/events/delete/{{event.id}}" class="btn btn-danger" >Delete</a>
+          <a ng-href="/#/admin/events/update/{{event.id}}" class="btn btn-success">Edit</a>
+        </div>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+</div>

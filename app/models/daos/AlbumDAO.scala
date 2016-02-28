@@ -33,9 +33,12 @@ class AlbumDAO @Inject() (db : DB)  {
     * Finds all active albums.
     * @return The list of active albums.
     */
-  def findAll() : Future[List[Album]] = {
+  def findAll(active: Option[Boolean], language: Option[String]) : Future[List[Album]] = {
     val cursor: Cursor[Album] = collection
-      .find(Json.obj("active" -> true))
+      .find(Json.obj(
+        "active" -> active.getOrElse[Boolean](true),
+        "language" -> language.getOrElse[String]("en")
+      ))
       .sort(Json.obj("date" -> 1))
       .cursor[Album]()
     cursor.collect[List]()

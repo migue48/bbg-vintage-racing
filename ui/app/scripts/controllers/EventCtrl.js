@@ -1,14 +1,14 @@
 'use strict';
 
-
-var UpdateEventCtrl = (function() {
-  function UpdateEventCtrl($log, $location, $stateParams, EventService) {
+controllersModule.controller('UpdateEventCtrl', ['$log', '$location', '$stateParams', 'EventService', 'TranslationService', function() {
+  function UpdateEventCtrl($log, $location, $stateParams, EventService, TranslationService) {
     this.$log = $log;
     this.$location = $location;
     this.$stateParams = $stateParams;
     this.Service = EventService;
+    this.TranslationService = TranslationService;
     this._obj = {};
-    this.list();
+    this.get(this.$stateParams.id);
   }
 
   UpdateEventCtrl.prototype.update = function() {
@@ -24,41 +24,7 @@ var UpdateEventCtrl = (function() {
     })(this));
   };
 
-  UpdateEventCtrl.prototype.list = function() {
-    var id;
-    id = this.$stateParams.id;
-
-    return this.Service.list().then((function(_this) {
-      return function(data) {
-        _this.$log.debug(data);
-        _this._obj = (data.filter(function(obj) {
-          return obj.id === id;
-        }))[0];
-        return _this.$log.debug(_this._obj);
-      };
-    })(this), (function(_this) {
-      return function(error) {
-        return _this.$log.error("Unable to get events: " + error);
-      };
-    })(this));
-  };
-
-  return UpdateEventCtrl;
-
-})();
-controllersModule.controller('UpdateEventCtrl', ['$log', '$location', '$stateParams', 'EventService', UpdateEventCtrl]);
-
-
-var EventShowCtrl = (function() {
-  function EventShowCtrl($log, $stateParams, EventService) {
-    this.$log = $log;
-    this.$stateParams = $stateParams;
-    this.Service = EventService;
-    this._obj = {};
-    this.get(this.$stateParams.id);
-  }
-
-  EventShowCtrl.prototype.get = function(id) {
+  UpdateEventCtrl.prototype.get = function(id) {
     return this.Service.show(id).then((function(_this) {
       return function(data) {
         return _this._obj = data.event;
@@ -69,12 +35,33 @@ var EventShowCtrl = (function() {
       };
     })(this));
   };
-  return EventShowCtrl;
-})();
-controllersModule.controller('EventShowCtrl', ['$log', '$stateParams', 'EventService', EventShowCtrl]);
+  return UpdateEventCtrl;
+}()]);
 
+controllersModule.controller('EventShowCtrl', ['$log', '$stateParams', 'EventService', function() {
+ function EventShowCtrl($log, $stateParams, EventService) {
+   this.$log = $log;
+   this.$stateParams = $stateParams;
+   this.Service = EventService;
+   this._obj = {};
+   this.get(this.$stateParams.id);
+ }
 
-var EventDeleteCtrl = (function() {
+ EventShowCtrl.prototype.get = function(id) {
+   return this.Service.show(id).then((function(_this) {
+     return function(data) {
+       return _this._obj = data.event;
+     };
+   })(this), (function(_this) {
+     return function(error) {
+       return _this.$log.error("Unable to get event: " + error);
+     };
+   })(this));
+ };
+ return EventShowCtrl;
+}()]);
+
+controllersModule.controller('EventDeleteCtrl', ['$log', '$stateParams', '$location', 'EventService', function() {
   function EventDeleteCtrl($log, $stateParams, $location, EventService) {
     this.$log = $log;
     this.Service = EventService;
@@ -96,27 +83,29 @@ var EventDeleteCtrl = (function() {
   };
 
   return EventDeleteCtrl;
-})();
-controllersModule.controller('EventDeleteCtrl', ['$log', '$stateParams', '$location', 'EventService', EventDeleteCtrl]);
+}()]);
 
-
-var CreateEventCtrl = (function() {
-  function CreateEventCtrl($rootScope, $log, $location, EventService) {
+controllersModule.controller('CreateEventCtrl', ['$rootScope', '$log', '$location', '$stateParams', 'EventService', 'TranslationService', function() {
+  function CreateEventCtrl($rootScope, $log, $location, $stateParams, EventService, TranslationService) {
     this.$log = $log;
     this.$rootScope = $rootScope;
     this.$location = $location;
+    this.$stateParams = $stateParams;
     this.Service = EventService;
+    this.TranslationService = TranslationService;
+    this.languages = this.TranslationService.supportedLanguages();
+    this.refId = $stateParams.id;
     this._obj = {};
+    if (this.refId === undefined || this.refId === null) {
+      this._obj.language = 'en';
+      this._obj.active = true;
+      return;
+    }
+    this.get(this.refId);
   }
 
   CreateEventCtrl.prototype.create = function() {
-
-    // This can be part of a pre-processing function if we want to
-    // make the controllers generic.
-    this._obj.active = true;
-    this._obj.language = "en";
     this._obj.userId = this.$rootScope.user.userID;
-
     return this.Service.create(this._obj).then((function(_this) {
       return function(data) {
         return _this.$location.path('/admin/events');
@@ -128,50 +117,116 @@ var CreateEventCtrl = (function() {
     })(this));
   };
 
-  return CreateEventCtrl;
-})();
-controllersModule.controller('CreateEventCtrl', ['$rootScope', '$log', '$location', 'EventService', CreateEventCtrl]);
-
-
-
-var EventCtrl =  (function() {
-  function EventCtrl($log, EventService) {
-    this.$log = $log;
-    this.Service = EventService;
-    this._objs = [];
-    this.list();
-  }
-
-  EventCtrl.prototype.list = function() {
-    return this.Service.list().then((function(_this) {
+  CreateEventCtrl.prototype.get = function(id) {
+    return this.Service.show(id).then((function(_this) {
       return function(data) {
-        return _this._objs = data;
+        var translation = {'language': data.event.language, 'id': data.event.id};
+        data.event.id = null;
+        if (data.event.translations == null || data.event.translations == undefined) {
+          data.event.translations = [translation];
+        } else {
+          data.event.translations.push(translation);
+        }
+        return _this._obj = data.event;
       };
     })(this), (function(_this) {
       return function(error) {
-        return _this.$log.error("Unable to get list of events: " + error);
+        return _this.$log.error("Unable to get event: " + error);
       };
     })(this));
   };
 
-  return EventCtrl;
-})();
-controllersModule.controller('EventCtrl', ['$log', 'EventService', EventCtrl]);
+  return CreateEventCtrl;
+}()]);
 
-var CalendarCtrl = (function(){
-  function CalendarCtrl($rootScope, $log,  $location, $anchorScroll, EventService) {
+
+controllersModule.controller('EventCtrl', ['$log', 'EventService', 'TranslationService', function() {
+ function EventCtrl($log, EventService, TranslationService) {
+   this.$log = $log;
+   this.Service = EventService;
+   this.TranslationService = TranslationService;
+   this._objs = [];
+   this.languages = TranslationService.supportedLanguages();
+   this.active = ['Active', 'Inactive'];
+   this.selLang =  this.TranslationService.getLanguage();
+   this.selActive = 0;
+   this.list();
+ }
+
+ EventCtrl.prototype.changeLanguage = function (key) {
+   this.TranslationService.changeLanguage(key);
+   this.selLang = key;
+   this.list();
+ };
+
+ EventCtrl.prototype.selectLanguage = function(index) {
+   this.selLang = this.languages[index];
+   this.list();
+ };
+
+ EventCtrl.prototype.selectActive = function(index) {
+   this.selActive = index;
+   this.list();
+ };
+
+ EventCtrl.prototype.list = function() {
+   this._objs.length = 0;
+   return this.Service.list({
+        'active': (this.active[this.selActive] == 'Active')? true:false,
+        'language': this.selLang
+       }).then((function(_this) {
+     return function(data) {
+       return _this._objs = data;
+     };
+   })(this), (function(_this) {
+     return function(error) {
+       return _this.$log.error("Unable to get list of events: " + error);
+     };
+   })(this));
+ };
+
+ return EventCtrl;
+}()]);
+
+controllersModule.controller('CalendarCtrl', ['$rootScope', '$log', '$location', '$anchorScroll', 'EventService', 'TranslationService', function(){
+  function CalendarCtrl($rootScope, $log,  $location, $anchorScroll, EventService, TranslationService) {
     this.$log = $log;
     this.$anchorScroll = $anchorScroll;
     this.$location = $location;
     this.Service = EventService;
+    this.TranslationService = TranslationService;
     this.cur = {};
     this.events = [];
     this.index = 0;
+    this.languages = TranslationService.supportedLanguages();
+    this.active = ['Active', 'Inactive'];
+    this.selLang =  this.TranslationService.getLanguage();
+    this.selActive = 0;
     this.list();
   }
 
+  CalendarCtrl.prototype.changeLanguage = function (key) {
+    this.TranslationService.changeLanguage(key);
+    this.selLang = key;
+    this.list();
+  };
+
+  CalendarCtrl.prototype.selectLanguage = function(index) {
+    this.selLang = this.languages[index];
+    this.list();
+  };
+
+  CalendarCtrl.prototype.selectActive = function(index) {
+    this.selActive = index;
+    this.list();
+    };
+
   CalendarCtrl.prototype.list = function() {
-      return this.Service.list().then((function(_this) {
+      this.events.length = 0;
+      return this.Service.list({
+       'active': (this.active[this.selActive] == 'Active')? true:false,
+       'language': this.selLang
+      }).then((function(_this) {
         return function(data) {
            _this.events = data;
            _this.events.map(function (event) {
@@ -228,8 +283,6 @@ var CalendarCtrl = (function(){
   }
 
   // Find init date function to initialize cur module after getting list of events
-
   return CalendarCtrl;
-})();
-controllersModule.controller('CalendarCtrl', ['$rootScope', '$log', '$location', '$anchorScroll', 'EventService', CalendarCtrl]);
+}()]);
 

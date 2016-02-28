@@ -4,6 +4,7 @@ import java.util.UUID
 import org.joda.time.DateTime
 import play.api.libs.json.Json
 
+
 /**
   * The article object.
   *
@@ -16,13 +17,14 @@ import play.api.libs.json.Json
   * @param updateDate: The date in which the article was last updated in the database.
   * @param active: Flag to enable/disable article.
   */
-case class Article (id: UUID,
+case class Article (id: Option[UUID],
                     userId: UUID,
                     language: String,
                     title: Option[String],
                     content: Option[String],
                     creationDate: Option[DateTime],
                     updateDate: Option[DateTime],
+                    translations: Option[Seq[Translation]] = None,
                     active: Boolean) {
 }
 

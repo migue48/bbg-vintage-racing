@@ -21,6 +21,14 @@
           <div class="col-sm-6">
             <div class="col-sm-12">
               <div class="form-group">
+                <label id="lbl_lang" for="language" class="control-label">Language</label>
+                <select ng-model="c._obj.language" id="language" name="language" id="active" class="form-control"
+                        ng-options="c.TranslationService.label(option) for option in c.languages"></select>
+              </div>
+            </div>
+
+            <div class="col-sm-12">
+              <div class="form-group">
                   <label class="control-label"><i class="fa fa-map-marker"></i> Address</label>
                   <input type="text" class="form-control" name="address" id="address" placeholder="Address" ng-model="c._obj.address">
               </div>
@@ -87,13 +95,12 @@
           <div class="form-group">
             <div class="col-sm-offset-4 col-sm-8 text-right">
               <a ui-sref="admin-events" id="btn_cancel" class="btn btn-warning">Cancel</a>
-
               <button type="submit" class="btn btn-success" id="btn_create">Create Event</button>
             </div>
           </div>
         </div>
       </div> <!-- panel body -->
     </div>  <!-- panel -->
-
   </form>
+  <div ng-include="'partials/admin/events/translations.html'"></div>
 </div>

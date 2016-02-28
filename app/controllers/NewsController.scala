@@ -10,7 +10,6 @@ import models.{User,Article}
 import models.daos._
 import play.api.i18n.{Messages, MessagesApi}
 import play.api.libs.concurrent.Execution.Implicits._
-import forms.ArticleForm
 import play.api.libs.json._
 import play.api.mvc._
 
@@ -28,38 +27,23 @@ class NewsController @Inject()(val messagesApi: MessagesApi,
   extends Silhouette[User, JWTAuthenticator] {
 
   def create = SecuredAction.async(parse.json) { implicit request =>
-    request.body.validate[ArticleForm.Data].map { data =>
-      val article = Article(
-        id = UUID.randomUUID(),
-        title = Some(data.title),
-        content = Some(data.content),
-        userId = data.userId,
-        language = data.language,
-        active = data.active,
-        creationDate = None,
-        updateDate = None
-      )
-      articleDAO.save(article)
+    request.body.validate[Article].map { article =>
+      val newArticle = article.copy(id = Some(UUID.randomUUID()))
+      articleDAO.save(newArticle)
       Future.successful(Created(s"Article Created"))
-    }.getOrElse(Future.successful(BadRequest(s"invalid json")))
+    }.recoverTotal(error => Future.successful(BadRequest(JsError.toJson(error))))
   }
 
   def update(id:UUID) = SecuredAction.async(parse.json) { request =>
-    request.body.validate[ArticleForm.Data].map { data =>
+    request.body.validate[Article].map { updatedArticle =>
       articleDAO.find(id).flatMap {
         case Some(article) =>
-          val newArticle = article.copy(
-            title = Some(data.title),
-            content = Some(data.content),
-            active = data.active,
-            language = data.language
-          )
-          articleDAO.save(newArticle)
+          articleDAO.save(updatedArticle)
           Future.successful(Created(s"Article Updated"))
         case None =>
           Future.successful(BadRequest(s"Article does not exist in database"))
       }
-    }.getOrElse(Future.successful(BadRequest(s"Invalid json")))
+    }.recoverTotal(error => Future.successful(BadRequest(JsError.toJson(error))))
   }
 
   def delete(id: UUID) = SecuredAction.async {

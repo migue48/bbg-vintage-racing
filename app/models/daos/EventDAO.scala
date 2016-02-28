@@ -35,9 +35,12 @@ class EventDAO @Inject() (db : DB)  {
     * Finds all active events.
     * @return The list of active events.
     */
-  def findAll() : Future[List[Event]] = {
+  def findAll(active: Option[Boolean], language: Option[String]) : Future[List[Event]] = {
     val cursor: Cursor[Event] = collection
-      .find(Json.obj("active" -> true))
+      .find(Json.obj(
+        "active" -> active.getOrElse[Boolean](true),
+        "language" -> language.getOrElse[String]("en")
+      ))
       .sort(Json.obj("startDate" -> 1))
       .cursor[Event]()
     cursor.collect[List]()

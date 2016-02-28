@@ -28,6 +28,12 @@ var app = angular.module('uiApp', [
 ]);
 
 
+/*
+ * Angular translate configuration.  This configures the available
+ * translations for the application, sets the default language to 'en'
+ * and  enabled cookie storage. The cookie storage is required to get
+ * the language selection to persist between reload events.
+ */
 app.config(function($translateProvider) {
   $translateProvider.useCookieStorage();
   $translateProvider.translations('en', languageEn);
@@ -40,25 +46,37 @@ app.config(function($translateProvider) {
 /**
  * The run configuration.
  */
-app.run(function($rootScope, $anchorScroll, $location, $translate) {
+app.run(function($rootScope, $anchorScroll, $location, $translate, $state, $stateParams) {
 
   /**
-   * The user data.
-   *
-   * @type {{}}
-   */
+  * The logged in user object.
+  */
   $rootScope.user = {};
 
-  // Always scroll
+
+  // Default offset used as part of the scroll operation.
   $anchorScroll.yOffset = 100;
 
+  /**
+   * Root scope function used to implement anchor scroll functionality.
+   *
+   * @param {string} id HTML id of the target object.
+   */
   $rootScope.scrollTo = function(id) {
     $location.hash(id);
     $anchorScroll();
   }
 
+  /**
+   * Root scope function used to change the language setting. This function
+   * triggers a $state reload event to be able to perform a language switch
+   * as part of the controller init flow associated with the given state.
+   *
+   * @param {string} langKey Language locale code.
+   */
   $rootScope.changeLanguage = function (langKey) {
         $translate.use(langKey);
+        $state.go($state.current, $stateParams, {reload: true, inherit: false});
   };
 });
 
