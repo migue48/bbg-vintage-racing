@@ -29,6 +29,7 @@ var app = angular.module('uiApp', [
 
 
 app.config(function($translateProvider) {
+  $translateProvider.useCookieStorage();
   $translateProvider.translations('en', languageEn);
   $translateProvider.translations('it', languageIt);
   $translateProvider.preferredLanguage('en');
