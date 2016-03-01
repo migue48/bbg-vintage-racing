@@ -1,3 +1,6 @@
+/**
+  * Copyright (C) 2015-2016 Miguel Osorio. All rights reserved.
+  */
 package models.daos
 
 import java.util.UUID
