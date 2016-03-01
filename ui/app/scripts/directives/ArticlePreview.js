@@ -1,3 +1,7 @@
+/**
+  * Copyright (C) 2015-2016 Miguel Osorio. All rights reserved.
+  */
+
 'use strict';
 
 var articlePreview = angular.module('articlePreview', []);

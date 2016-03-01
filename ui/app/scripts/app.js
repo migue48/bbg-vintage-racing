@@ -1,3 +1,7 @@
+/**
+  * Copyright (C) 2015-2016 Miguel Osorio. All rights reserved.
+  */
+
 'use strict';
 
 (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
