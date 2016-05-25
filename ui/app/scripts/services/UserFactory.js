@@ -1,6 +1,7 @@
+/**
+  * Copyright (C) 2015-2016 Miguel Osorio. All rights reserved.
+  */
 'use strict';
-
-/*global app: false */
 
 /**
  * The user factory.
