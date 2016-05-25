@@ -51,7 +51,7 @@ This project is based on the following templates:
   bundle install -j4 --path .bundle
   ```
 
-4. Start sbt and run the following:
+4. Start activator and run the following:
 
   ```
   $ update

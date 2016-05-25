@@ -8,6 +8,7 @@ import com.mohiva.play.silhouette.impl.authenticators.JWTAuthenticator
 import com.mohiva.play.silhouette.impl.providers.SocialProviderRegistry
 import models.{User,Event}
 import models.daos._
+import org.joda.time.DateTime
 import play.api.i18n.MessagesApi
 import play.api.libs.concurrent.Execution.Implicits._
 import play.api.libs.json._
@@ -68,12 +69,15 @@ class EventsController @Inject()(val messagesApi: MessagesApi,
     }
   }
 
+
   def list(active: Option[Boolean],
            pagestart: Option[Int],
            pagesize: Option[Int],
-           language: Option[String])  = Action.async {
+           language: Option[String],
+           startDate: Option[DateTime] = None,
+           endDate: Option[DateTime] = None)  = Action.async {
 
-    val futureEventsList: Future[List[Event]] = eventDAO.findAll(active, language)
+    val futureEventsList: Future[List[Event]] = eventDAO.findAll(active, language, startDate, endDate)
 
     // transform the list into a JsArray
     val futureEventsJsonArray: Future[JsArray] = futureEventsList.map { events =>

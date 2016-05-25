@@ -35,12 +35,26 @@ class EventDAO @Inject() (db : DB)  {
     * Finds all active events.
     * @return The list of active events.
     */
-  def findAll(active: Option[Boolean], language: Option[String]) : Future[List[Event]] = {
+  def findAll(active: Option[Boolean],
+              language: Option[String],
+              startDate: Option[DateTime] = None,
+              endDate: Option[DateTime] = None) : Future[List[Event]] = {
+
+    var params = Json.obj(
+      "active" -> active.getOrElse[Boolean](true),
+      "language" -> language.getOrElse[String]("en")
+    )
+
+    if (startDate.isDefined) {
+      params = params ++ Json.obj("endDate" -> Json.obj("$gte" -> startDate.get))
+    }
+
+    if (endDate.isDefined) {
+      params = params ++ Json.obj("startDate" -> Json.obj("$lte" -> endDate.get))
+    }
+
     val cursor: Cursor[Event] = collection
-      .find(Json.obj(
-        "active" -> active.getOrElse[Boolean](true),
-        "language" -> language.getOrElse[String]("en")
-      ))
+      .find(params)
       .sort(Json.obj("startDate" -> 1))
       .cursor[Event]()
     cursor.collect[List]()

@@ -19,7 +19,7 @@ DELETE  /api/articles/delete/:id        controllers.NewsController.delete(id: ja
 GET     /api/articles/:id               controllers.NewsController.show(id: java.util.UUID)
 
 # Event management API
-GET     /api/events                   controllers.EventsController.list(active: Option[Boolean], pagestart: Option[Int], pagesize: Option[Int],language: Option[String])
+GET     /api/events                   controllers.EventsController.list(active: Option[Boolean], pagestart: Option[Int], pagesize: Option[Int],language: Option[String],  startDate: Option[org.joda.time.DateTime], endDate: Option[org.joda.time.DateTime])
 POST    /api/events                   controllers.EventsController.create
 PUT     /api/events/:id               controllers.EventsController.update(id: java.util.UUID)
 DELETE  /api/events/delete/:id        controllers.EventsController.delete(id: java.util.UUID)

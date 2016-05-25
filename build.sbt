@@ -1,5 +1,4 @@
 import com.tuplejump.sbt.yeoman.Yeoman
-
 import scalariform.formatter.preferences._
 
 name := """bbg-vintage-racing"""
@@ -30,6 +29,7 @@ libraryDependencies ++= Seq(
 
 lazy val root = (project in file(".")).enablePlugins(PlayScala)
 
+play.sbt.routes.RoutesKeys.routesImport += "extensions.Binders._"
 routesGenerator := InjectedRoutesGenerator
 
 scalacOptions ++= Seq(
@@ -60,7 +60,5 @@ ScalariformKeys.preferences := ScalariformKeys.preferences.value
   .setPreference(FormatXml, false)
   .setPreference(DoubleIndentClassDeclaration, false)
   .setPreference(PreserveDanglingCloseParenthesis, true)
-
-routesImport ++= Seq("extensions.Binders._")
 
 fork in run := false
