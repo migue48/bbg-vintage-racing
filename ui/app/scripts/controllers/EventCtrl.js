@@ -225,7 +225,8 @@ controllersModule.controller('CalendarCtrl', ['$rootScope', '$log', '$location',
       this.events.length = 0;
       return this.Service.list({
        'active': (this.active[this.selActive] == 'Active')? true:false,
-       'language': this.selLang
+       'language': this.selLang,
+       'startDate': Date.now()
       }).then((function(_this) {
         return function(data) {
            _this.events = data;
