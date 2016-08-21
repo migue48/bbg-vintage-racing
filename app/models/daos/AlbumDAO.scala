@@ -42,7 +42,7 @@ class AlbumDAO @Inject() (db : DB)  {
         "active" -> active.getOrElse[Boolean](true),
         "language" -> language.getOrElse[String]("en")
       ))
-      .sort(Json.obj("date" -> 1))
+      .sort(Json.obj("date" -> -1))
       .cursor[Album]()
     cursor.collect[List]()
   }
